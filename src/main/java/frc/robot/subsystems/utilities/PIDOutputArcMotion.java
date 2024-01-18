@@ -6,8 +6,8 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  
-	/**
-	 * 
+	/** 
+	 *  
 	 * @author Rich Topolewski
 	 * 
 	 * Used to take the speed calculated from the PID control and pass it to the drive train, but 

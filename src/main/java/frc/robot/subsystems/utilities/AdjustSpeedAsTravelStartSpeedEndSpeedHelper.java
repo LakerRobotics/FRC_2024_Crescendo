@@ -5,8 +5,8 @@ import java.util.function.DoubleSupplier;
 
 /**
  * 
- * @author richard.topolewski
- *
+ * @author richard.topolewski 
+ * 
  */
 public class AdjustSpeedAsTravelStartSpeedEndSpeedHelper extends AdjustSpeedAsTravelHelper{
 	

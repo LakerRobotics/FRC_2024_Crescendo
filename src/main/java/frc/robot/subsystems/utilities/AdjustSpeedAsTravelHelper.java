@@ -5,7 +5,7 @@ import edu.wpi.first.math.controller.PIDController;
 import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public abstract class AdjustSpeedAsTravelHelper {
+public abstract class AdjustSpeedAsTravelHelper {  
 
 //	protected DoubleConsumer /*PIDOutput*/ m_output;
 	protected DoubleSupplier /*PIDSource*/ m_source;

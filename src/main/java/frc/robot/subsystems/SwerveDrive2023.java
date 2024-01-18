@@ -6,9 +6,9 @@ package frc.robot.subsystems;
 
 import com.analog.adis16470.frc.ADIS16470_IMU;
 import com.ctre.phoenix.sensors.CANCoder;
-import com.ctre.phoenix.sensors.Pigeon2;
-import com.ctre.phoenix.unmanaged.Unmanaged;
-import com.revrobotics.CANSparkMax;
+import com.ctre.phoenix.sensors.Pigeon2; 
+import com.ctre.phoenix.unmanaged.Unmanaged; 
+import com.revrobotics.CANSparkMax; 
 import com.revrobotics.CANSparkMaxLowLevel;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;

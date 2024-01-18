@@ -4,9 +4,9 @@ public class AdjustAngleAsTravelHelper {
 
 	double m_startDistance;
 	double m_cicleRadius;
-	double m_startAngle;	
+	double m_startAngle;	 
 	double m_targetAngle;
-	double m_distanceOnArch;
+	double m_distanceOnArch; 
 /**
  * 
  * @param startDistance provide the current distance (typically in inches)

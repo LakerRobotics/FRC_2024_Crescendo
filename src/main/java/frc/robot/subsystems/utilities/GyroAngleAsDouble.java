@@ -4,9 +4,9 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 
-public class GyroAngleAsDouble implements DoubleSupplier{
+public class GyroAngleAsDouble implements DoubleSupplier{ 
     
-    Gyro m_gyro;
+    Gyro m_gyro; 
 
     public GyroAngleAsDouble(Gyro aGyro){
         m_gyro = aGyro;

@@ -5,9 +5,9 @@ import java.util.function.DoubleConsumer;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-	/**
+	/** 
 	 * 
-	 * @author Rich Topolewski
+	 * @author Rich Topolewski 
 	 * 
 	 * Used to take the speed calculated from the PID control and pass it to the drive train, 
 	 * and also adjust the speed going to the wheels to drive straight

@@ -8,9 +8,9 @@ import frc.robot.subsystems.utilities.EncoderAvgLeftRight;
  */
 public class PIDSourceDistance implements DoubleSupplier {
 
-	DriveTrain m_driveTrain;
+	DriveTrain m_driveTrain; 
 	EncoderAvgLeftRight m_encoderAvg;
-	boolean returnDistance = true;
+	boolean returnDistance = true;  
 	
 	public PIDSourceDistance(DriveTrain the_driveTrain) {
 		m_driveTrain = the_driveTrain;

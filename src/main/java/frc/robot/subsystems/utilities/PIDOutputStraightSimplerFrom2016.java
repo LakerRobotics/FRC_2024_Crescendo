@@ -7,9 +7,9 @@ import edu.wpi.first.wpilibj.interfaces.Gyro;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-/**
+/** 
  * 
- * @author Rich Topolewski
+ * @author Rich Topolewski 
  * 
  * Used to take the speed calculated from the PID control and pass it to the drive train, 
  * and while passing through the left to right motor powers are tweeked so it get on the desire gyro angle drive straight

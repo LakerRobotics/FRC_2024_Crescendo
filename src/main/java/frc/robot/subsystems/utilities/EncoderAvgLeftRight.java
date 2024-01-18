@@ -2,10 +2,10 @@ package frc.robot.subsystems.utilities;
 
 import java.util.function.DoubleSupplier;
 
-import com.revrobotics.RelativeEncoder;
+import com.revrobotics.RelativeEncoder; 
 
 
-public class EncoderAvgLeftRight implements DoubleSupplier{
+public class EncoderAvgLeftRight implements DoubleSupplier{ 
     RelativeEncoder m_leftEncoder;
     RelativeEncoder m_rightEncoder;
 

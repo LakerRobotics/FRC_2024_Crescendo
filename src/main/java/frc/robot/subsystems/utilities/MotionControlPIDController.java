@@ -5,8 +5,8 @@ import edu.wpi.first.math.controller.PIDController;
 
 public class MotionControlPIDController extends PIDController {
 	AdjustSpeedAsTravelHelper m_motionControlHelper; 
-	/**
-	 * 
+	/** 
+	 *  
 	 * @return
 	 * @override
 	 * @throws Exception

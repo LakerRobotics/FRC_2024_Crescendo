@@ -7,9 +7,9 @@ import com.ctre.phoenix.sensors.CANCoderConfiguration;
 import com.ctre.phoenix.sensors.SensorInitializationStrategy;
 import com.ctre.phoenix.sensors.SensorTimeBase;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.kinematics.SwerveModuleState;
-
-public final class CtreUtils {
+import edu.wpi.first.math.kinematics.SwerveModuleState; 
+ 
+public final class CtreUtils { 
   public static TalonFXConfiguration generateTurnMotorConfig() {
     TalonFXConfiguration motorConfig = new TalonFXConfiguration();
 

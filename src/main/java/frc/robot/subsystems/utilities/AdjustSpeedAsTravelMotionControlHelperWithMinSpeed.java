@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * 
- * @author richard.topolewski
+ * @author richard.topolewski  
  *
  */
 public class AdjustSpeedAsTravelMotionControlHelperWithMinSpeed  extends AdjustSpeedAsTravelHelper {
