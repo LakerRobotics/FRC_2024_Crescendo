@@ -100,11 +100,11 @@ public class Robot extends TimedRobot {
     public void autonomousPeriodic() {
         //Scheduler.getInstance().run();
     }
-ADXRS450_Gyro gyro;
+
 
     @Override
     public void teleopInit() {
-         gyro=new ADXRS450_Gyro();
+        
             //try (//Scheduler.getInstance().run());            
     } 
         // This makes sure that the autonomous stops running when
@@ -119,7 +119,7 @@ ADXRS450_Gyro gyro;
      */
     @Override
     public void teleopPeriodic() {
-         SmartDashboard.putNumber("robot gyro", gyro.getAngle());
+       
     }
 
     @Override

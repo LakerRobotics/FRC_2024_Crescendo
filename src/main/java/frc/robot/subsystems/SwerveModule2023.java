@@ -53,7 +53,7 @@ public class SwerveModule2023 extends SubsystemBase {
                   kvDriveVoltSecondsSquaredPerMeter);
 
   private final ProfiledPIDController m_turningPIDController
-          = new ProfiledPIDController(0.01, 0, 0,
+          = new ProfiledPIDController(10, 0, 0,
           new TrapezoidProfile.Constraints(2 * Math.PI, 2 * Math.PI));
 
   public SwerveModule2023(
