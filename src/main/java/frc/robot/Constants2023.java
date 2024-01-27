@@ -39,14 +39,14 @@ public final class Constants2023 {
     public static final int backLeftCanCoder = 31;
     public static final int backRightCanCoder = 41;
 
-    public static final int frontLeftDriveMotor = 10;
-    public static final int frontLeftTurnMotor = 12;
-    public static final int frontRightDriveMotor = 20;
-    public static final int frontRightTurnMotor = 22;
-    public static final int backLeftDriveMotor = 30;
-    public static final int backLeftTurnMotor = 32;
-    public static final int backRightDriveMotor = 40;
-    public static final int backRightTurnMotor = 42;
+    public static final int frontLeftDriveMotor = 12;
+    public static final int frontLeftTurnMotor = 13;
+    public static final int frontRightDriveMotor = 22;
+    public static final int frontRightTurnMotor = 23;
+    public static final int backLeftDriveMotor = 32;
+    public static final int backLeftTurnMotor = 33;
+    public static final int backRightDriveMotor = 42;
+    public static final int backRightTurnMotor = 43;
   }
 
   public static final class Swerve {
@@ -101,9 +101,9 @@ public final class Constants2023 {
               360.0 / kTurningMotorGearRatio;
       public static final double kTurningEncoderDistancePerPulse = 360.0 / kCANCoderCPR;
 
-      public static final double ksDriveVoltSecondsPerMeter = 0.01*(0.667 / 12);
-      public static final double kvDriveVoltSecondsSquaredPerMeter = 0.01* (2.44 / 12);
-      public static final double kaDriveVoltSecondsSquaredPerMeter = 0.01* (0.27 / 12);
+      public static final double ksDriveVoltSecondsPerMeter = (0.667 / 12);
+      public static final double kvDriveVoltSecondsSquaredPerMeter = (2.44 / 12);
+      public static final double kaDriveVoltSecondsSquaredPerMeter =  (0.27 / 12);
 
       public static final double kvTurnVoltSecondsPerRadian = 1.47; // originally 1.5
       public static final double kaTurnVoltSecondsSquaredPerRadian = 0.348; // originally 0.3

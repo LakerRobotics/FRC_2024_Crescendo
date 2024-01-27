@@ -19,6 +19,7 @@ import edu.wpi.first.math.kinematics.*;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
+import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.simulation.ADXRS450_GyroSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
@@ -34,8 +35,10 @@ import static frc.robot.Constants2023.Swerve.*;
 
 public class SwerveDrive2023 extends SubsystemBase {
 
+
+
   private final HashMap<ModulePosition, SwerveModule2023> m_swerveModules =
-          new HashMap<>(
+                new HashMap<>(
                   Map.of(
                           ModulePosition.FRONT_LEFT,
                           new SwerveModule2023(
@@ -66,9 +69,7 @@ public class SwerveDrive2023 extends SubsystemBase {
                                   new CANcoder(CAN.backRightCanCoder),
                                   0)));
 
-public ADXRS450_Gyro gyro = new ADXRS450_Gyro();
-
-
+private ADXRS450_Gyro gyro = new ADXRS450_Gyro();
 
   private SwerveDriveOdometry m_odometry =
           new SwerveDriveOdometry(
@@ -100,6 +101,10 @@ public ADXRS450_Gyro gyro = new ADXRS450_Gyro();
     throttle *= kMaxSpeedMetersPerSecond;
     strafe *= kMaxSpeedMetersPerSecond;
     rotation *= kMaxRotationRadiansPerSecond;
+
+((SwerveModule2023) m_swerveModules.get(ModulePosition.FRONT_RIGHT)).m_driveMotor.setInverted(true);
+((SwerveModule2023) m_swerveModules.get(ModulePosition.BACK_RIGHT)).m_driveMotor.setInverted(true);
+
 
     ChassisSpeeds chassisSpeeds =
             isFieldRelative

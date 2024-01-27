@@ -33,7 +33,7 @@ public final class Constants {
     public static final int kLeftFrontStearingMotorCANID = 13;
     public static final boolean kFrontLeftDriveMotorReversed = false;
     public static final boolean kFrontLeftSteeringMotorReversed = false;
-    public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = 0.428;
+    public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = -0.428;
     public static final boolean kFrontLeftDriveAbsoluteEncoderReversed = false;
     
     public static final int kRightFrontEncoderCANID = 21;
@@ -101,8 +101,8 @@ public final class Constants {
     public static final double kLinearDistanceConversionFactor = (Units.inchesToMeters(1/(kGearRatio*2*Math.PI*Units.inchesToMeters(kWheelRadiusInches))*10));
     public static final double kPhysicalMaxSpeedMetersPerSecond = 5;
     public static final double kTeleDriveAccelerationUnitsPerSecond = 0;
-    public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 3;
-    public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 3;
+    public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 1;
+    public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 1;
   }
 
   public static final class SwerveModuleConstants {

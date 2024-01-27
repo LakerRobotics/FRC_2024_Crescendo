@@ -41,3 +41,8 @@ build/tmp/compileJava/compileTransaction/stash-dir/SetSwerveDrive2023.class.uniq
 *.lock
 *.lock
 .gradle/file-system.probe
+*.lock
+*.bin
+*.uniqueId4
+*.uniqueId5
+*.uniqueId5

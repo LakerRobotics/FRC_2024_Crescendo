@@ -47,8 +47,9 @@ public class SetSwerveDrive2023 extends Command {
     double throttle = Math.abs(m_throttleInput.getAsDouble()) > 0.05 ? m_throttleInput.getAsDouble() : 0;
     double strafe = Math.abs(m_strafeInput.getAsDouble()) > 0.05 ? m_strafeInput.getAsDouble() : 0;
     double rotation = Math.abs(m_rotationInput.getAsDouble()) > 0.05 ? m_rotationInput.getAsDouble() : 0;
-
-    m_swerveDrive.drive(throttle, strafe, rotation, m_isFieldRelative, false);    // Forward/Back Trottle, Left/Right Strafe, Left/Right Turn
+//TODO switch back to close  loop
+//    m_swerveDrive.drive(throttle, strafe, rotation, m_isFieldRelative, false);    // Forward/Back Trottle, Left/Right Strafe, Left/Right Turn
+    m_swerveDrive.drive(throttle, strafe, rotation, m_isFieldRelative, true);    // Forward/Back Trottle, Left/Right Strafe, Left/Right Turn
   }
 
   // Called once the command ends or is interrupted.

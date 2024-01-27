@@ -20,6 +20,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.utils.*;
 
@@ -53,8 +54,9 @@ public class SwerveModule2023 extends SubsystemBase {
                   kvDriveVoltSecondsSquaredPerMeter);
 
   private final ProfiledPIDController m_turningPIDController
-          = new ProfiledPIDController(10, 0, 0,
+          = new ProfiledPIDController(0.001, 0, 0,
           new TrapezoidProfile.Constraints(2 * Math.PI, 2 * Math.PI));
+          //new TrapezoidProfile.Constraints(2 * Math.PI, 2 * Math.PI));
  
   public SwerveModule2023(
           int moduleNumber,
@@ -139,6 +141,7 @@ public class SwerveModule2023 extends SubsystemBase {
 
     if (isOpenLoop) {
       double percentOutput = desiredState.speedMetersPerSecond / kMaxSpeedMetersPerSecond;
+      SmartDashboard.putNumber("SwerveModule 2023 isOpenLoop drive morter PercentOutupe",percentOutput);
       m_driveMotor.set(percentOutput);
     } else {
       int DRIVE_PID_SLOT = RobotBase.isReal() ? VEL_SLOT : SIM_SLOT;
@@ -147,6 +150,7 @@ public class SwerveModule2023 extends SubsystemBase {
               CANSparkMax.ControlType.kVelocity,
               DRIVE_PID_SLOT
       );
+      SmartDashboard.putNumber("SwerveModule 2023 NOT isOpenLoop drive morter PercentOutput",desiredState.speedMetersPerSecond);
     }
 
     double angle =
@@ -154,6 +158,7 @@ public class SwerveModule2023 extends SubsystemBase {
                     ? m_lastAngle
                     : desiredState.angle.getDegrees(); // Prevent rotating module if speed is less than 1%. Prevents Jittering.
     m_turnController.setReference(angle, CANSparkMax.ControlType.kPosition, POS_SLOT);
+      SmartDashboard.putNumber("SwerveModule 2023. angle",angle);
 
 
     if (RobotBase.isSimulation()) {
