@@ -5,9 +5,11 @@
 package frc.robot.subsystems;
 
 import com.analog.adis16470.frc.ADIS16470_IMU;
-import com.ctre.phoenix.sensors.CANCoder;
-import com.ctre.phoenix.sensors.Pigeon2; 
-import com.ctre.phoenix.unmanaged.Unmanaged; 
+//import com.ctre.phoenix.sensors.CANCoder;
+//import com.ctre.phoenix.sensors.Pigeon2; 
+//import com.ctre.phoenix.unmanaged.Unmanaged;
+import com.ctre.phoenix6.hardware.CANcoder;
+import com.ctre.phoenix6.unmanaged.Unmanaged;
 import com.revrobotics.CANSparkMax; 
 import com.revrobotics.CANSparkMaxLowLevel;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -15,7 +17,9 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.*;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
+import edu.wpi.first.wpilibj.simulation.ADXRS450_GyroSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -38,31 +42,32 @@ public class SwerveDrive2023 extends SubsystemBase {
                                   0,
                                   new CANSparkMax(CAN.frontLeftTurnMotor, CANSparkMaxLowLevel.MotorType.kBrushless),
                                   new CANSparkMax(CAN.frontLeftDriveMotor, CANSparkMaxLowLevel.MotorType.kBrushless),
-                                  new CANCoder(CAN.frontLeftCanCoder),
+                                  new CANcoder(CAN.frontLeftCanCoder),
                                   0),
                           ModulePosition.FRONT_RIGHT,
                           new SwerveModule2023(
                                   1,
                                   new CANSparkMax(CAN.frontRightTurnMotor, CANSparkMaxLowLevel.MotorType.kBrushless),
                                   new CANSparkMax(CAN.frontRightDriveMotor, CANSparkMaxLowLevel.MotorType.kBrushless),
-                                  new CANCoder(CAN.frontRightCanCoder),
+                                  new CANcoder(CAN.frontRightCanCoder),
                                   0),
                           ModulePosition.BACK_LEFT,
                           new SwerveModule2023(
                                   2,
                                   new CANSparkMax(CAN.backLeftTurnMotor, CANSparkMaxLowLevel.MotorType.kBrushless),
                                   new CANSparkMax(CAN.backLeftDriveMotor, CANSparkMaxLowLevel.MotorType.kBrushless),
-                                  new CANCoder(CAN.backLeftCanCoder),
+                                  new CANcoder(CAN.backLeftCanCoder),
                                   0),
                           ModulePosition.BACK_RIGHT,
                           new SwerveModule2023(
                                   3,
                                   new CANSparkMax(CAN.backRightTurnMotor, CANSparkMaxLowLevel.MotorType.kBrushless),
                                   new CANSparkMax(CAN.backRightDriveMotor, CANSparkMaxLowLevel.MotorType.kBrushless),
-                                  new CANCoder(CAN.backRightCanCoder),
+                                  new CANcoder(CAN.backRightCanCoder),
                                   0)));
 
-private ADIS16470_IMU gyro = new ADIS16470_IMU();
+public ADXRS450_Gyro gyro = new ADXRS450_Gyro();
+
 
 
   private SwerveDriveOdometry m_odometry =
@@ -164,8 +169,17 @@ private ADIS16470_IMU gyro = new ADIS16470_IMU();
                       module.getHeadingRotation2d().plus(getHeadingRotation2d())));
     }
   }
-
-  private void updateSmartDashboard() {}
+double test=  0;
+  private void updateSmartDashboard() {
+        SmartDashboard.putNumber("gyro Angle", gyro.getAngle());
+test = test +0.01;  
+        SmartDashboard.putNumber("test", test);
+        SmartDashboard.putNumber("Get Rotation", getHeadingRotation2d().getRotations());
+        SmartDashboard.putNumber("Left Front Module. Drive GetAppliedOutput",m_swerveModules.get( ModulePosition.FRONT_LEFT).m_driveMotor.getAppliedOutput());
+        SmartDashboard.putNumber("Left Front Module Drive Output current",m_swerveModules.get( ModulePosition.FRONT_LEFT).m_driveMotor.getOutputCurrent());
+        SmartDashboard.putNumber("Left Front Module Drive position",m_swerveModules.get( ModulePosition.FRONT_LEFT).m_driveMotor.getEncoder().getPosition());
+        SmartDashboard.putNumber("Left Front Module Drive velocity",m_swerveModules.get( ModulePosition.FRONT_LEFT).m_driveMotor.getEncoder().getVelocity());
+}
 
   @Override
   public void periodic() {

@@ -1,6 +1,8 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 //import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -98,9 +100,11 @@ public class Robot extends TimedRobot {
     public void autonomousPeriodic() {
         //Scheduler.getInstance().run();
     }
+ADXRS450_Gyro gyro;
 
     @Override
     public void teleopInit() {
+         gyro=new ADXRS450_Gyro();
             //try (//Scheduler.getInstance().run());            
     } 
         // This makes sure that the autonomous stops running when
@@ -115,7 +119,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void teleopPeriodic() {
-         
+         SmartDashboard.putNumber("robot gyro", gyro.getAngle());
     }
 
     @Override

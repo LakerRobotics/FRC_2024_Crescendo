@@ -22,3 +22,22 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
+build/tmp/compileJava/compileTransaction/stash-dir/Robot.class.uniqueId5
+*.so
+*.MF
+*.bin
+*.uniqueId2
+*.uniqueId3
+*.8
+build/tmp/compileJava/compileTransaction/stash-dir/FieldSim.class.uniqueId4
+*.uniqueId0
+build/tmp/compileJava/compileTransaction/stash-dir/SetSwerveDrive2023.class.uniqueId6
+*.uniqueId1
+*.pdb
+*.dll
+*.bin
+*.lock
+*.lock
+*.lock
+*.lock
+.gradle/file-system.probe

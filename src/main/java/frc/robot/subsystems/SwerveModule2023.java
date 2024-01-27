@@ -9,7 +9,7 @@ import static frc.robot.Constants2023.Swerve.kMaxSpeedMetersPerSecond;
 //import static frc.robot.Constants.SwerveModuleConstants.*;
 
  
-import com.ctre.phoenix.sensors.CANCoder;  
+import com.ctre.phoenix6.hardware.CANcoder;
 import com.revrobotics.*;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -35,7 +35,7 @@ public class SwerveModule2023 extends SubsystemBase {
   private SparkMaxPIDController m_turnController;
   public final RelativeEncoder m_driveEncoder;
   private final RelativeEncoder m_turnEncoder;
-  CANCoder m_angleEncoder;
+  CANcoder m_angleEncoder;
   double m_angleOffset;
   double m_currentAngle;
   double m_lastAngle;
@@ -53,15 +53,17 @@ public class SwerveModule2023 extends SubsystemBase {
                   kvDriveVoltSecondsSquaredPerMeter);
 
   private final ProfiledPIDController m_turningPIDController
-          = new ProfiledPIDController(1, 0, 0,
+          = new ProfiledPIDController(0.01, 0, 0,
           new TrapezoidProfile.Constraints(2 * Math.PI, 2 * Math.PI));
 
   public SwerveModule2023(
           int moduleNumber,
           CANSparkMax turnMotor,
           CANSparkMax driveMotor,
-          CANCoder angleEncoder,
+          CANcoder angleEncoder,
           double angleOffset) {
+            turnMotor.setSecondaryCurrentLimit(1);
+            driveMotor.setSecondaryCurrentLimit(1);
     m_moduleNumber = moduleNumber;
     m_turnMotor = turnMotor;
     m_driveMotor = driveMotor;
@@ -76,8 +78,8 @@ public class SwerveModule2023 extends SubsystemBase {
     RevUtils.setTurnMotorConfig(m_turnMotor);
     m_turnMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
 
-    m_angleEncoder.configFactoryDefault();
-    m_angleEncoder.configAllSettings(CtreUtils.generateCanCoderConfig());
+//    m_angleEncoder.configFactoryDefault();
+//    m_angleEncoder.configAllSettings(CtreUtils.generateCanCoderConfig());
 
     m_driveEncoder = m_driveMotor.getEncoder();
     m_driveEncoder.setPositionConversionFactor(kDriveRevToMeters);
@@ -104,7 +106,7 @@ public class SwerveModule2023 extends SubsystemBase {
   }
 
   public void resetAngleToAbsolute() {
-    double angle = m_angleEncoder.getAbsolutePosition() - m_angleOffset;
+    double angle = m_angleEncoder.getAbsolutePosition().getValue() - m_angleOffset;
     m_turnEncoder.setPosition(angle);
   }
 
