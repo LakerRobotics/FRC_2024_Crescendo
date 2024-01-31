@@ -46,28 +46,28 @@ public class SwerveDrive2023 extends SubsystemBase {
                                   new CANSparkMax(CAN.frontLeftTurnMotor, CANSparkMaxLowLevel.MotorType.kBrushless),
                                   new CANSparkMax(CAN.frontLeftDriveMotor, CANSparkMaxLowLevel.MotorType.kBrushless),
                                   new CANcoder(CAN.frontLeftCanCoder),
-                                  0),
+                                  -94.219),
                           ModulePosition.FRONT_RIGHT,
                           new SwerveModule2023(
                                   1,
                                   new CANSparkMax(CAN.frontRightTurnMotor, CANSparkMaxLowLevel.MotorType.kBrushless),
                                   new CANSparkMax(CAN.frontRightDriveMotor, CANSparkMaxLowLevel.MotorType.kBrushless),
                                   new CANcoder(CAN.frontRightCanCoder),
-                                  0),
+                                  132.363),
                           ModulePosition.BACK_LEFT,
                           new SwerveModule2023(
                                   2,
                                   new CANSparkMax(CAN.backLeftTurnMotor, CANSparkMaxLowLevel.MotorType.kBrushless),
                                   new CANSparkMax(CAN.backLeftDriveMotor, CANSparkMaxLowLevel.MotorType.kBrushless),
                                   new CANcoder(CAN.backLeftCanCoder),
-                                  0),
+                                 284.590),
                           ModulePosition.BACK_RIGHT,
                           new SwerveModule2023(
                                   3,
                                   new CANSparkMax(CAN.backRightTurnMotor, CANSparkMaxLowLevel.MotorType.kBrushless),
                                   new CANSparkMax(CAN.backRightDriveMotor, CANSparkMaxLowLevel.MotorType.kBrushless),
                                   new CANcoder(CAN.backRightCanCoder),
-                                  0)));
+                                  179.648)));
 
 private ADXRS450_Gyro gyro = new ADXRS450_Gyro();
 
@@ -89,7 +89,9 @@ private ADXRS450_Gyro gyro = new ADXRS450_Gyro();
 
   public SwerveDrive2023() {
     gyro.reset();
-
+((SwerveModule2023) m_swerveModules.get(ModulePosition.FRONT_RIGHT)).m_driveMotor.setInverted(true);
+((SwerveModule2023) m_swerveModules.get(ModulePosition.BACK_RIGHT)).m_driveMotor.setInverted(true);
+ 
   }
 
   public void drive(
@@ -102,8 +104,7 @@ private ADXRS450_Gyro gyro = new ADXRS450_Gyro();
     strafe *= kMaxSpeedMetersPerSecond;
     rotation *= kMaxRotationRadiansPerSecond;
 
-((SwerveModule2023) m_swerveModules.get(ModulePosition.FRONT_RIGHT)).m_driveMotor.setInverted(true);
-((SwerveModule2023) m_swerveModules.get(ModulePosition.BACK_RIGHT)).m_driveMotor.setInverted(true);
+
 
 
     ChassisSpeeds chassisSpeeds =
