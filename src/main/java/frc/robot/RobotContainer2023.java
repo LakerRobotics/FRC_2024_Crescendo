@@ -43,7 +43,7 @@ public class RobotContainer2023 {
                     m_robotDrive,
                     ()-> leftJoystick.getY(),
                     ()-> leftJoystick.getX(),
-                    ()-> rightJoystick.getX(),
+                    ()-> leftJoystick.getZ(),
                     false));
 
     m_fieldSim.initSim();
