@@ -46,28 +46,28 @@ public class SwerveDrive2023 extends SubsystemBase {
                                   new CANSparkMax(CAN.frontLeftTurnMotor, CANSparkMaxLowLevel.MotorType.kBrushless),
                                   new CANSparkMax(CAN.frontLeftDriveMotor, CANSparkMaxLowLevel.MotorType.kBrushless),
                                   new CANcoder(CAN.frontLeftCanCoder),
-                                  -94.219),
+                                  0),
                           ModulePosition.FRONT_RIGHT,
                           new SwerveModule2023(
                                   1,
                                   new CANSparkMax(CAN.frontRightTurnMotor, CANSparkMaxLowLevel.MotorType.kBrushless),
                                   new CANSparkMax(CAN.frontRightDriveMotor, CANSparkMaxLowLevel.MotorType.kBrushless),
                                   new CANcoder(CAN.frontRightCanCoder),
-                                  132.363),
+                                  0),
                           ModulePosition.BACK_LEFT,
                           new SwerveModule2023(
                                   2,
                                   new CANSparkMax(CAN.backLeftTurnMotor, CANSparkMaxLowLevel.MotorType.kBrushless),
                                   new CANSparkMax(CAN.backLeftDriveMotor, CANSparkMaxLowLevel.MotorType.kBrushless),
                                   new CANcoder(CAN.backLeftCanCoder),
-                                 284.590),
+                                 0),
                           ModulePosition.BACK_RIGHT,
                           new SwerveModule2023(
                                   3,
                                   new CANSparkMax(CAN.backRightTurnMotor, CANSparkMaxLowLevel.MotorType.kBrushless),
                                   new CANSparkMax(CAN.backRightDriveMotor, CANSparkMaxLowLevel.MotorType.kBrushless),
                                   new CANcoder(CAN.backRightCanCoder),
-                                  179.648)));
+                                  0)));
 
 private ADXRS450_Gyro gyro = new ADXRS450_Gyro();
 
