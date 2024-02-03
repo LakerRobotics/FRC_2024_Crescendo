@@ -50,8 +50,8 @@ public final class Constants2023 {
   }
 
   public static final class Swerve {
-    public static final double kTrackWidth = Units.inchesToMeters(30);
-    public static final double kWheelBase = Units.inchesToMeters(30);
+    public static final double kTrackWidth = Units.inchesToMeters(17);
+    public static final double kWheelBase = Units.inchesToMeters(18);
 
     public static final Translation2d[] kModuleTranslations = {
             new Translation2d(kWheelBase / 2, kTrackWidth / 2),
@@ -69,12 +69,12 @@ public final class Constants2023 {
         new SwerveDriveKinematics(kModuleTranslations);
 
     public static final double kMaxSpeedMetersPerSecond = Units.feetToMeters(18);
-    public static final double kMaxRotationRadiansPerSecond = Math.PI * 2.0;
+    public static final double kMaxRotationRadiansPerSecond = Math.PI * 4.0;
     public static final double kMaxRotationRadiansPerSecondSquared = Math.PI * 2.0;
 
-    public static final double kP_X = 0.2;
+    public static final double kP_X = 1.0;
     public static final double kD_X = 0;
-    public static final double kP_Y = 0.2;
+    public static final double kP_Y = 1.0;
     public static final double kD_Y = 0;
     public static final double kP_Theta = 8;
     public static final double kD_Theta = 0;

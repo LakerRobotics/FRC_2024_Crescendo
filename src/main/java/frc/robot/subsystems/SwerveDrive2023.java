@@ -91,7 +91,8 @@ private ADXRS450_Gyro gyro = new ADXRS450_Gyro();
     gyro.reset();
 ((SwerveModule2023) m_swerveModules.get(ModulePosition.FRONT_RIGHT)).m_driveMotor.setInverted(true);
 ((SwerveModule2023) m_swerveModules.get(ModulePosition.BACK_RIGHT)).m_driveMotor.setInverted(true);
- 
+((SwerveModule2023) m_swerveModules.get(ModulePosition.FRONT_LEFT)).m_driveMotor.setInverted(true);
+((SwerveModule2023) m_swerveModules.get(ModulePosition.BACK_LEFT)).m_driveMotor.setInverted(true); 
   }
 
   public void drive(
@@ -112,6 +113,10 @@ private ADXRS450_Gyro gyro = new ADXRS450_Gyro();
                     ? ChassisSpeeds.fromFieldRelativeSpeeds(
                     throttle, strafe, rotation, getHeadingRotation2d())
                     : new ChassisSpeeds(throttle, strafe, rotation);
+    SmartDashboard.putNumber("chassis.vx",chassisSpeeds.vxMetersPerSecond);
+    SmartDashboard.putNumber("chassis.vy",chassisSpeeds.vyMetersPerSecond);
+    SmartDashboard.putNumber("chassis.Vr",chassisSpeeds.omegaRadiansPerSecond);
+    SmartDashboard.putNumber("chassis.Heading",getHeadingDegrees());
 
     SwerveModuleState[] moduleStates = kSwerveKinematics.toSwerveModuleStates(chassisSpeeds);
 
