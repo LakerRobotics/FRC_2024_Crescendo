@@ -141,24 +141,22 @@ public class SwerveModule2023 extends SubsystemBase {
 
     if (isOpenLoop) {
       double percentOutput = desiredState.speedMetersPerSecond / kMaxSpeedMetersPerSecond;
-      SmartDashboard.putNumber("SwerveModule 2023 isOpenLoop drive morter PercentOutupe",percentOutput);
+      SmartDashboard.putNumber("SwerveMo2023 OpenLoop drive motor PercentOutupe",percentOutput);
       m_driveMotor.set(percentOutput);
     } else {
       int DRIVE_PID_SLOT = RobotBase.isReal() ? VEL_SLOT : SIM_SLOT;
-      m_driveController.setReference(
-              desiredState.speedMetersPerSecond,
-              CANSparkMax.ControlType.kVelocity,
-              DRIVE_PID_SLOT
-      );
-      SmartDashboard.putNumber("SwerveModule 2023 NOT isOpenLoop drive morter PercentOutput",desiredState.speedMetersPerSecond);
+      m_driveController.setReference(desiredState.speedMetersPerSecond,CANSparkMax.ControlType.kVelocity);
+      SmartDashboard.putNumber("SwerveM23ClosedLoop desired Speed",desiredState.speedMetersPerSecond);
+      SmartDashboard.putNumber("SwerveM23ClosedLoop motor speed",m_driveMotor.getEncoder().getVelocity());
     }
 
     double angle =
             (Math.abs(desiredState.speedMetersPerSecond) <= (kMaxSpeedMetersPerSecond * 0.01))
                     ? m_lastAngle
                     : desiredState.angle.getDegrees(); // Prevent rotating module if speed is less than 1%. Prevents Jittering.
-    m_turnController.setReference(angle, CANSparkMax.ControlType.kPosition, POS_SLOT);
-      SmartDashboard.putNumber("SwerveModule 2023. angle",angle);
+    m_turnController.setReference(angle, CANSparkMax.ControlType.kPosition);
+      SmartDashboard.putNumber("SwerveM23. desired angle",angle);
+      SmartDashboard.putNumber("SwerveM23. actual angle",m_driveEncoder.getPosition());
 
 
     if (RobotBase.isSimulation()) {

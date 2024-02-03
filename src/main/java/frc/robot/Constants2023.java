@@ -72,9 +72,9 @@ public final class Constants2023 {
     public static final double kMaxRotationRadiansPerSecond = Math.PI * 4.0;
     public static final double kMaxRotationRadiansPerSecondSquared = Math.PI * 2.0;
 
-    public static final double kP_X = 1.0;
+    public static final double kP_X = 0.2;
     public static final double kD_X = 0;
-    public static final double kP_Y = 1.0;
+    public static final double kP_Y = 0.2;
     public static final double kD_Y = 0;
     public static final double kP_Theta = 8;
     public static final double kD_Theta = 0;
@@ -105,7 +105,7 @@ public final class Constants2023 {
       public static final double kvDriveVoltSecondsSquaredPerMeter = (2.44 / 12);
       public static final double kaDriveVoltSecondsSquaredPerMeter =  (0.27 / 12);
 
-      public static final double kvTurnVoltSecondsPerRadian = 1.47; // originally 1.5
+      public static final double kvTurnVoltSecondsPerRadian = 0.01;//1.47; // originally 1.5
       public static final double kaTurnVoltSecondsSquaredPerRadian = 0.348; // originally 0.3
     }
     

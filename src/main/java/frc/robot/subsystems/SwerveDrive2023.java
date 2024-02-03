@@ -107,16 +107,37 @@ private ADXRS450_Gyro gyro = new ADXRS450_Gyro();
 
 
 
+    ChassisSpeeds chassisSpeeds;
+//    if (isFieldRelative) {
+        ChassisSpeeds chassisSpeedsField = ChassisSpeeds.fromFieldRelativeSpeeds(throttle, strafe, rotation, getHeadingRotation2d());
+        SmartDashboard.putNumber("chassis.FieldRelative.vx",chassisSpeedsField.vxMetersPerSecond);
+        SmartDashboard.putNumber("chassis.FieldRelative.vy",chassisSpeedsField.vyMetersPerSecond);
+        SmartDashboard.putNumber("chassis.FieldRelative.Vr",chassisSpeedsField.omegaRadiansPerSecond);
+        SmartDashboard.putNumber("chassis.FieldRelative.Heading",getHeadingDegrees());
+        SmartDashboard.putNumber("chassis.FieldRelative.HeadingRot2D",getHeadingRotation2d().getDegrees());
+//    } else {
+        ChassisSpeeds chassisSpeedsRobot = new ChassisSpeeds(throttle, strafe, rotation);
+        SmartDashboard.putNumber("chassis.RobotRelative.vx",chassisSpeedsRobot.vxMetersPerSecond);
+        SmartDashboard.putNumber("chassis.RobotRelative.vy",chassisSpeedsRobot.vyMetersPerSecond);
+        SmartDashboard.putNumber("chassis.RobotRelative.Vr",chassisSpeedsRobot.omegaRadiansPerSecond);
+        SmartDashboard.putNumber("chassis.RobotRelative.Heading",getHeadingDegrees());
+//    }
+    if (isFieldRelative) {
+        chassisSpeeds = chassisSpeedsField;
+    }
+    else{
+        chassisSpeeds = chassisSpeedsRobot;
+    }
 
-    ChassisSpeeds chassisSpeeds =
-            isFieldRelative
-                    ? ChassisSpeeds.fromFieldRelativeSpeeds(
-                    throttle, strafe, rotation, getHeadingRotation2d())
-                    : new ChassisSpeeds(throttle, strafe, rotation);
-    SmartDashboard.putNumber("chassis.vx",chassisSpeeds.vxMetersPerSecond);
-    SmartDashboard.putNumber("chassis.vy",chassisSpeeds.vyMetersPerSecond);
-    SmartDashboard.putNumber("chassis.Vr",chassisSpeeds.omegaRadiansPerSecond);
-    SmartDashboard.putNumber("chassis.Heading",getHeadingDegrees());
+//    ChassisSpeeds chassisSpeeds =
+//            isFieldRelative
+//                    ? ChassisSpeeds.fromFieldRelativeSpeeds(
+//                    throttle, strafe, rotation, getHeadingRotation2d())
+//                    : new ChassisSpeeds(throttle, strafe, rotation);
+//Temp    SmartDashboard.putNumber("chassis.vx",chassisSpeeds.vxMetersPerSecond);
+//Temp    SmartDashboard.putNumber("chassis.vy",chassisSpeeds.vyMetersPerSecond);
+//Temp    SmartDashboard.putNumber("chassis.Vr",chassisSpeeds.omegaRadiansPerSecond);
+//Temp    SmartDashboard.putNumber("chassis.Heading",getHeadingDegrees());
 
     SwerveModuleState[] moduleStates = kSwerveKinematics.toSwerveModuleStates(chassisSpeeds);
 

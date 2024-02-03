@@ -8,7 +8,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 public final class RevUtils {
   public static void setTurnMotorConfig(CANSparkMax motorController) {
     motorController.getPIDController().setFF(0.0);
-    motorController.getPIDController().setP(0.2);
+    motorController.getPIDController().setP(0.02);
     motorController.getPIDController().setI(0.0);  
     // motorController.getPIDController().setD(12.0);
 
