@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems;
 
-import com.analog.adis16470.frc.ADIS16470_IMU;
 //import com.ctre.phoenix.sensors.CANCoder;
 //import com.ctre.phoenix.sensors.Pigeon2; 
 //import com.ctre.phoenix.unmanaged.Unmanaged;
@@ -18,7 +17,6 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.*;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
-import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.simulation.ADXRS450_GyroSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -71,6 +69,7 @@ public class SwerveDrive2023 extends SubsystemBase {
 
 private ADXRS450_Gyro gyro = new ADXRS450_Gyro();
 
+
   private SwerveDriveOdometry m_odometry =
           new SwerveDriveOdometry(
                   Swerve.kSwerveKinematics,
@@ -93,7 +92,13 @@ private ADXRS450_Gyro gyro = new ADXRS450_Gyro();
 ((SwerveModule2023) m_swerveModules.get(ModulePosition.BACK_RIGHT)).m_driveMotor.setInverted(true);
 ((SwerveModule2023) m_swerveModules.get(ModulePosition.FRONT_LEFT)).m_driveMotor.setInverted(true);
 ((SwerveModule2023) m_swerveModules.get(ModulePosition.BACK_LEFT)).m_driveMotor.setInverted(true); 
-  }
+
+  
+//((SwerveModule2023) m_swerveModules.get(ModulePosition.FRONT_RIGHT)).m_turnMotor.setInverted(true);
+//((SwerveModule2023) m_swerveModules.get(ModulePosition.BACK_RIGHT)).m_turnMotor.setInverted(true);
+//((SwerveModule2023) m_swerveModules.get(ModulePosition.FRONT_LEFT)).m_turnMotor.setInverted(true);
+//((SwerveModule2023) m_swerveModules.get(ModulePosition.BACK_LEFT)).m_turnMotor.setInverted(true); 
+ }
 
   public void drive(
           double throttle,
@@ -155,7 +160,7 @@ private ADXRS450_Gyro gyro = new ADXRS450_Gyro();
   }
 
   public double getHeadingDegrees() {
-    return Math.IEEEremainder(gyro.getAngle(), 360);
+    return -Math.IEEEremainder(gyro.getAngle(), 360);
   }
 
   public Rotation2d getHeadingRotation2d() {
