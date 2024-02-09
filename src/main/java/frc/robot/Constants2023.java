@@ -24,12 +24,14 @@ import java.util.Map;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants2023 {
+  
 
   public static final class USB {
     public static final int leftJoystick = 0;
     public static final int rightJoystick = 1;
     public static final int xBoxController = 2;
     public static final int testController = 4;
+    
   }
 
   public static final class CAN {
@@ -47,11 +49,14 @@ public final class Constants2023 {
     public static final int backLeftTurnMotor = 33;
     public static final int backRightDriveMotor = 42;
     public static final int backRightTurnMotor = 43;
+
   }
 
   public static final class Swerve {
     public static final double kTrackWidth = Units.inchesToMeters(17);
     public static final double kWheelBase = Units.inchesToMeters(18);
+
+    public static final double kDeadband = 0;
 
     public static final Translation2d[] kModuleTranslations = {
             new Translation2d(kWheelBase / 2, kTrackWidth / 2),
@@ -68,7 +73,11 @@ public final class Constants2023 {
     public static final SwerveDriveKinematics kSwerveKinematics =
         new SwerveDriveKinematics(kModuleTranslations);
 
-    public static final double kMaxSpeedMetersPerSecond = Units.feetToMeters(18);
+    public static final double kMaxSpeedMetersPerSecond = Units.feetToMeters(15);
+    public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 1;
+    public static final double kTeleDriveAccelerationUnitsPerSecond = 0;
+    public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 1;
+
     public static final double kMaxRotationRadiansPerSecond = Math.PI * 4.0;
     public static final double kMaxRotationRadiansPerSecondSquared = Math.PI * 2.0;
 
@@ -84,7 +93,7 @@ public final class Constants2023 {
             kMaxRotationRadiansPerSecond, kMaxRotationRadiansPerSecondSquared);
 
     public static final class Module {
-      public static final double kDriveMotorGearRatio = 6.12;
+      public static final double kDriveMotorGearRatio = 6.75;
       public static final double kTurningMotorGearRatio = 12.8;
       public static final double kWheelDiameterMeters = Units.inchesToMeters(3.94);
       public static final int kNeoCPR = 42;

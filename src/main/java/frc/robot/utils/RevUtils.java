@@ -20,7 +20,7 @@ public final class RevUtils {
   }
 
   public static void setDriveMotorConfig(CANSparkMax motorController) {
-    motorController.getPIDController().setFF(0.0);
+    motorController.getPIDController().setFF(3/12);
     motorController.getPIDController().setP(0.1);
     motorController.getPIDController().setI(0.0);
     motorController.getPIDController().setD(0.0);

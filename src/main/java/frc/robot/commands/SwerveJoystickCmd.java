@@ -5,8 +5,8 @@ import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
-import frc.robot.Constants.DriveTrainConstants;
-import frc.robot.Constants.OperatorConstants;
+import frc.robot.Constants2023.Swerve;
+import frc.robot.Constants2023;
 import frc.robot.subsystems.SwerveDrive2023;
   
 public class SwerveJoystickCmd extends Command {
@@ -28,9 +28,9 @@ public class SwerveJoystickCmd extends Command {
         this.ySpdFunction = ySpdFunction;
         this.turningSpdFunction = turningSpdFunction;
         this.fieldOrientedFunction = fieldOrientedFunction;
-        this.xLimiter = new SlewRateLimiter(DriveTrainConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
-        this.yLimiter = new SlewRateLimiter(DriveTrainConstants.kTeleDriveAccelerationUnitsPerSecond);
-        this.turningLimiter = new SlewRateLimiter(DriveTrainConstants.kTeleDriveMaxAngularAccelerationUnitsPerSecond);
+        this.xLimiter = new SlewRateLimiter(Swerve.kTeleDriveMaxAccelerationUnitsPerSecond);
+        this.yLimiter = new SlewRateLimiter(Swerve.kTeleDriveAccelerationUnitsPerSecond);
+        this.turningLimiter = new SlewRateLimiter(Swerve.kTeleDriveMaxAngularAccelerationUnitsPerSecond);
         addRequirements(swervesubsystem2);
         
     } 
@@ -60,9 +60,9 @@ SmartDashboard.putNumber("Test SwerveJoysticCmd", temp);
 
 
             //2. Applu deadband
-            xSpeed = Math.abs(xSpeed) > OperatorConstants.kDeadband ? xSpeed : 0.0;
-            ySpeed = Math.abs(ySpeed) > OperatorConstants.kDeadband ? ySpeed : 0.0;
-            turningSpeed = Math.abs(turningSpeed) > OperatorConstants.kDeadband ? turningSpeed : 0.0;
+            xSpeed = Math.abs(xSpeed) > Swerve.kDeadband ? xSpeed : 0.0;
+            ySpeed = Math.abs(ySpeed) > Swerve.kDeadband ? ySpeed : 0.0;
+            turningSpeed = Math.abs(turningSpeed) > Swerve.kDeadband ? turningSpeed : 0.0;
 
         }
 

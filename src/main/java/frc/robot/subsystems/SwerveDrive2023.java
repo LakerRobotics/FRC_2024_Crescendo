@@ -235,4 +235,6 @@ test = test +0.01;
 //    gyro.getSimCollection().setRawHeading(-Units.radiansToDegrees(m_simYaw));s
 //    pigeon.getSimCollection().setRawHeading(-Units.radiansToDegrees(m_simYaw));
   }
+  public void setVoltage(double voltageForMotors){
+}
 }
