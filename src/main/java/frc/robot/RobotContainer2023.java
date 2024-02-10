@@ -4,6 +4,9 @@
 
 package frc.robot;
   
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand; 
@@ -12,6 +15,9 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.SetSwerveDrive2023;
 import frc.robot.simulation.FieldSim;
+import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.LauncherSubsystem;
 import frc.robot.subsystems.SwerveDrive2023;
 import frc.robot.Constants2023.USB; 
  
@@ -24,6 +30,14 @@ import frc.robot.Constants2023.USB;
 public class RobotContainer2023 {
   // The robot's subsystems and commands are defined here...
   private final SwerveDrive2023 m_robotDrive = new SwerveDrive2023();
+  // Initialize Limelight NetworkTable
+    private NetworkTable limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
+      private final ArmSubsystem m_arm = new ArmSubsystem();
+  private final IntakeSubsystem m_intake = new IntakeSubsystem();
+  private final LauncherSubsystem m_launcher = new LauncherSubsystem();
+
+
+
 
   private final FieldSim m_fieldSim = new FieldSim(m_robotDrive);
 
@@ -32,6 +46,21 @@ public class RobotContainer2023 {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer2023() {
+     // Initialize Logitech camera
+    CameraServer.startAutomaticCapture();  // set the arm subsystem to run the "runAutomatic" function continuously when no other command is running
+    m_arm.setDefaultCommand(new RunCommand(() -> m_arm.runAutomatic(), m_arm));
+
+    // set the intake to stop (0 power) when no other command is running
+    m_intake.setDefaultCommand(new RunCommand(() -> m_intake.setPower(0.0), m_intake));
+
+    // configure the launcher to stop when no other command is running
+    m_launcher.setDefaultCommand(new RunCommand(() -> m_launcher.stopLauncher(), m_launcher));
+
+   final NetworkTable limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
+
+
+
+ 
     // Configure the trigger bindings
     configureBindings();
 

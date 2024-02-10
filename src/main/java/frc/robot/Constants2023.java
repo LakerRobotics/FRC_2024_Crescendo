@@ -49,6 +49,7 @@ public final class Constants2023 {
     public static final int backLeftTurnMotor = 33;
     public static final int backRightDriveMotor = 42;
     public static final int backRightTurnMotor = 43;
+    
 
   }
 
@@ -73,7 +74,7 @@ public final class Constants2023 {
     public static final SwerveDriveKinematics kSwerveKinematics =
         new SwerveDriveKinematics(kModuleTranslations);
 
-    public static final double kMaxSpeedMetersPerSecond = Units.feetToMeters(15);
+    public static final double kMaxSpeedMetersPerSecond = Units.feetToMeters(40);
     public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 1;
     public static final double kTeleDriveAccelerationUnitsPerSecond = 0;
     public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 1;
