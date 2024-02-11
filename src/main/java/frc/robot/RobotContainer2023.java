@@ -7,10 +7,7 @@ package frc.robot;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PS4Controller;
-//import edu.wpi.first.wpilibj.PS4Controller.Button;
-//import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand; 
@@ -25,7 +22,6 @@ import frc.robot.subsystems.LauncherSubsystem;
 import frc.robot.subsystems.SwerveDrive2023;
 import frc.robot.Constants2023.USB; 
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
  
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -47,8 +43,8 @@ public class RobotContainer2023 {
 
   private final FieldSim m_fieldSim = new FieldSim(m_robotDrive);
 
-  static Joystick leftJoystick = new Joystick(USB.leftJoystick);
-  static Joystick rightJoystick = new Joystick(USB.rightJoystick);
+  static PS4Controller leftJoystick  = new PS4Controller(USB.leftJoystick);
+  static PS4Controller rightJoystick = new PS4Controller(USB.rightJoystick);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer2023() {
@@ -76,9 +72,9 @@ public class RobotContainer2023 {
             // Turning is controlled by the X axis of the right stick.
             new SetSwerveDrive2023(
                     m_robotDrive,
-                    ()-> leftJoystick.getY(),
-                    ()-> leftJoystick.getX(),
-                    ()-> leftJoystick.getZ(),
+                    ()-> leftJoystick.getLeftY(),// getY(),
+                    ()-> leftJoystick.getLeftX(), //getX(),
+                    ()-> leftJoystick.getRightY(),//getZ(),
                   true));
 
     m_fieldSim.initSim();
@@ -98,36 +94,24 @@ public class RobotContainer2023 {
     // set up arm preset positions
     new JoystickButton(rightJoystick, PS4Controller.Button.kSquare.value)
         .onTrue(new InstantCommand(() -> m_arm.setTargetPosition(Constants.Arm.kScoringPosition)));
-//temp    new Trigger(
-//temp            () ->
-//temp                ((PS4Controller) rightJoystick).getLeftTriggerAxis()
-//temp                    > Constants.OIConstants.kTriggerButtonThreshold)
-//temp        .onTrue(new InstantCommand(() -> m_arm.setTargetPosition(Constants.Arm.kIntakePosition)));
-//temp    new JoystickButton(rightJoystick, PS4Controller.Button.kL1.value)
-//temp        .onTrue(new InstantCommand(() -> m_arm.setTargetPosition(Constants.Arm.kHomePosition)));
+
+    new Trigger(
+            () ->
+                rightJoystick.getL2Axis()
+                    > Constants.OIConstants.kTriggerButtonThreshold)
+        .onTrue(new InstantCommand(() -> m_arm.setTargetPosition(Constants.Arm.kIntakePosition)));
+
+    new JoystickButton(rightJoystick, PS4Controller.Button.kL1.value)
+        .onTrue(new InstantCommand(() -> m_arm.setTargetPosition(Constants.Arm.kHomePosition)));
 
     // intake controls (run while button is held down, run retract command once when the button is released)
-//temp2    new Trigger(
-//temp2            () ->
-//temp2                rightJoystick.getRawAxis(PS4Controller.Axis.kL2)
-//temp2                    > Constants.OIConstants.kTriggerButtonThreshold)
-//temp2        .whileTrue(new RunCommand(() -> m_intake.setPower(Constants.Intake.kIntakePower), m_intake))
-//temp2        .onFalse(m_intake.retract());
-
-
-        // Assuming rightJoystick is an instance of PS4Controller and is already initialized.
-        
-        // Convert the trigger into a Button object using a lambda for the getRawAxis check.
-//temp2Alt        Button triggerButton = new Button();
-//temp2Alt        Button(
-//temp2Alt            () -> rightJoystick.getRawAxis(PS4Controller.Axis.kL2.value) > Constants.OIConstants.kTriggerButtonThreshold
-//temp2Alt        );
-        
-        // Use the button to run commands
-//temp2Alt        triggerButton.whileHeld(new RunCommand(() -> m_intake.setPower(Constants.Intake.kIntakePower), m_intake)); // Replace RunIntakeCommand with your actual intake command
-//temp2Alt        triggerButton.whenReleased(); // Replace RetractIntakeCommand with your actual retract command
-        
-
+    new Trigger(
+            () ->
+                rightJoystick.getR2Axis()
+                    > Constants.OIConstants.kTriggerButtonThreshold)
+        .whileTrue(new RunCommand(() -> m_intake.setPower(Constants.Intake.kIntakePower), m_intake))
+        .onFalse(m_intake.retract());
+     
     new JoystickButton(rightJoystick, PS4Controller.Button.kTriangle.value)
         .whileTrue(new RunCommand(() -> m_intake.setPower(-1.0)));
 

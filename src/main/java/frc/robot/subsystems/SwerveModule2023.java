@@ -82,6 +82,8 @@ public class SwerveModule2023 extends SubsystemBase {
 
 //    m_angleEncoder.configFactoryDefault();
 //    m_angleEncoder.configAllSettings(CtreUtils.generateCanCoderConfig());
+//TODO RGT fix    
+//m_angleEncoder.configAllSettings(convertPulseToDegree);
 
     m_driveEncoder = m_driveMotor.getEncoder();
     m_driveEncoder.setPositionConversionFactor(kDriveRevToMeters);
@@ -110,6 +112,8 @@ public class SwerveModule2023 extends SubsystemBase {
   public void resetAngleToAbsolute() {
     double angle = m_angleEncoder.getAbsolutePosition().getValue() - m_angleOffset;
     m_turnEncoder.setPosition(angle);
+    SmartDashboard.putString("CanCoder Units: ", m_angleEncoder.getAbsolutePosition().getUnits()); 
+    SmartDashboard.putNumber("CanCoder value", m_angleEncoder.getAbsolutePosition().getValue()); 
   }
 
   public double getHeadingDegrees() {
