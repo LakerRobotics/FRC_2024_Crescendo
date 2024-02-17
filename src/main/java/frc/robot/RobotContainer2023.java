@@ -17,9 +17,12 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.SetSwerveDrive2023;
 import frc.robot.simulation.FieldSim;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LauncherSubsystem;
 import frc.robot.subsystems.SwerveDrive2023;
+import frc.robot.utils.GamepadUtils;
+import frc.robot.Constants.OIConstants;
 import frc.robot.Constants2023.USB; 
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  
@@ -31,23 +34,34 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  */
 public class RobotContainer2023 {
   // The robot's subsystems and commands are defined here...
-  private final SwerveDrive2023 m_robotDrive = new SwerveDrive2023();
+  private  SwerveDrive2023 m_robotDriveSDS;
+  private  DriveSubsystem  m_robotDriveREV;
   // Initialize Limelight NetworkTable
     private NetworkTable limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
       private final ArmSubsystem m_arm = new ArmSubsystem();
   private final IntakeSubsystem m_intake = new IntakeSubsystem();
   private final LauncherSubsystem m_launcher = new LauncherSubsystem();
+  private int ROBOT;
+  private final int PROD = 1;
+  private final int DEV = 0;
 
 
 
-
-  private final FieldSim m_fieldSim = new FieldSim(m_robotDrive);
+//  private final FieldSim m_fieldSim;// = new FieldSim(m_robotDrive);
 
   static PS4Controller leftJoystick  = new PS4Controller(USB.leftJoystick);
   static PS4Controller rightJoystick = new PS4Controller(USB.rightJoystick);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer2023() {
+    ROBOT = DEV;
+     if (ROBOT == DEV){
+       m_robotDriveSDS = new SwerveDrive2023();
+     }
+     else {
+       m_robotDriveREV = new DriveSubsystem();
+     }
+
      // Initialize Logitech camera
     CameraServer.startAutomaticCapture();  // set the arm subsystem to run the "runAutomatic" function continuously when no other command is running
     m_arm.setDefaultCommand(new RunCommand(() -> m_arm.runAutomatic(), m_arm));
@@ -65,19 +79,39 @@ public class RobotContainer2023 {
  
     // Configure the trigger bindings
     configureBindings();
-
+    if(ROBOT == PROD){
+ //     m_robotDrive = m_robotDriveSDS;
+  // m_fieldSim = new FieldSim(m_robotDriveSDS);
+  // m_fieldSim.initSim();
     // Configure default commands
-    m_robotDrive.setDefaultCommand(
+    m_robotDriveSDS.setDefaultCommand(
             // The left stick controls translation of the robot.
             // Turning is controlled by the X axis of the right stick.
             new SetSwerveDrive2023(
-                    m_robotDrive,
+                    m_robotDriveSDS,
                     ()-> leftJoystick.getLeftY(),// getY(),
                     ()-> leftJoystick.getLeftX(), //getX(),
-                    ()-> leftJoystick.getRightY(),//getZ(),
+                    ()-> leftJoystick.getRightX(),//getZ(),
                   true));
-
-    m_fieldSim.initSim();
+    }
+    else{
+//      m_robotDrive = 
+m_robotDriveREV.setDefaultCommand(
+  // The left stick controls translation of the robot.
+  // Turning is controlled by the X axis of the right stick.
+  new RunCommand(
+      () ->
+          m_robotDriveREV.drive(
+              -GamepadUtils.squareInput(
+                  leftJoystick.getLeftY(), OIConstants.kDriveDeadband),
+              -GamepadUtils.squareInput(
+                  leftJoystick.getLeftX(), OIConstants.kDriveDeadband),
+              -GamepadUtils.squareInput(
+                  leftJoystick.getRightX(), OIConstants.kDriveDeadband),
+              true,
+              false),
+      m_robotDriveREV));
+    }
   }
 
   /**
@@ -136,6 +170,6 @@ public class RobotContainer2023 {
   }
   
   public void periodic() {
-    m_fieldSim.periodic();
+ //   m_fieldSim.periodic();
   }
 }
