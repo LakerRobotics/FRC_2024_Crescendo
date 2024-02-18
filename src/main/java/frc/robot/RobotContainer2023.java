@@ -8,6 +8,7 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.PS4Controller;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand; 
@@ -54,7 +55,7 @@ public class RobotContainer2023 {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer2023() {
-    ROBOT = DEV;
+    ROBOT = PROD;
      if (ROBOT == DEV){
        m_robotDriveSDS = new SwerveDrive2023();
      }
@@ -79,7 +80,7 @@ public class RobotContainer2023 {
  
     // Configure the trigger bindings
     configureBindings();
-    if(ROBOT == PROD){
+    if(ROBOT == DEV){
  //     m_robotDrive = m_robotDriveSDS;
   // m_fieldSim = new FieldSim(m_robotDriveSDS);
   // m_fieldSim.initSim();
@@ -109,7 +110,7 @@ m_robotDriveREV.setDefaultCommand(
               -GamepadUtils.squareInput(
                   leftJoystick.getRightX(), OIConstants.kDriveDeadband),
               true,
-              false),
+            true),
       m_robotDriveREV));
     }
   }

@@ -15,6 +15,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.ADIS16470_IMU.IMUAxis;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.utils.SwerveUtils;
@@ -70,7 +71,12 @@ public class DriveSubsystem extends SubsystemBase {
           });
 
   /** Creates a new DriveSubsystem. */
-  public DriveSubsystem() {}
+  public DriveSubsystem() {
+m_frontLeft.m_turningSparkMax.setInverted(false);
+m_frontRight.m_drivingSparkMax.setInverted(true);
+//m_rearLeft.m_turningSparkMax.setInverted(true);
+m_rearRight.m_turningSparkMax.setInverted(false);
+  }
 
   @Override
   public void periodic() {
@@ -126,7 +132,11 @@ public class DriveSubsystem extends SubsystemBase {
     double xSpeedCommanded;
     double ySpeedCommanded;
 
-    if (rateLimit) {
+SmartDashboard.putNumber("REV1xspeed", xSpeed);
+SmartDashboard.putNumber("REV1yspeed", ySpeed);
+SmartDashboard.putNumber("REV1rot", rot);
+
+if (rateLimit) {
       // Convert XY to polar for rate limiting
       double inputTranslationDir = Math.atan2(ySpeed, xSpeed);
       double inputTranslationMag = Math.sqrt(Math.pow(xSpeed, 2) + Math.pow(ySpeed, 2));
@@ -168,17 +178,22 @@ public class DriveSubsystem extends SubsystemBase {
       xSpeedCommanded = m_currentTranslationMag * Math.cos(m_currentTranslationDir);
       ySpeedCommanded = m_currentTranslationMag * Math.sin(m_currentTranslationDir);
       m_currentRotation = m_rotLimiter.calculate(rot);
-
     } else {
       xSpeedCommanded = xSpeed;
       ySpeedCommanded = ySpeed;
       m_currentRotation = rot;
     }
+SmartDashboard.putNumber("REV2xSpeedCommanded", xSpeedCommanded);
+SmartDashboard.putNumber("REV2ySpeedCommanded", ySpeedCommanded);
+SmartDashboard.putNumber("REV2m_currentRotation", m_currentRotation);
 
     // Convert the commanded speeds into the correct units for the drivetrain
     double xSpeedDelivered = xSpeedCommanded * DriveConstants.kMaxSpeedMetersPerSecond;
     double ySpeedDelivered = ySpeedCommanded * DriveConstants.kMaxSpeedMetersPerSecond;
     double rotDelivered = m_currentRotation * DriveConstants.kMaxAngularSpeed;
+SmartDashboard.putNumber("REV3xSpeedDelivered", xSpeedDelivered);
+SmartDashboard.putNumber("REV3ySpeedDelivered", ySpeedDelivered);
+SmartDashboard.putNumber("REV3rotDelivered", rotDelivered);
 
     var swerveModuleStates =
         DriveConstants.kDriveKinematics.toSwerveModuleStates(
@@ -195,7 +210,31 @@ public class DriveSubsystem extends SubsystemBase {
     m_frontRight.setDesiredState(swerveModuleStates[1]);
     m_rearLeft.setDesiredState(swerveModuleStates[2]);
     m_rearRight.setDesiredState(swerveModuleStates[3]);
-  }
+        SmartDashboard.putNumber("Rev4[0]AngleRadis",swerveModuleStates[0].angle.getRadians());
+        SmartDashboard.putNumber("Rev4[0]Speed"     ,swerveModuleStates[0].speedMetersPerSecond);
+        SmartDashboard.putNumber("Rev4[0]AngleActual",m_frontLeft.getState().angle.getRadians());
+        SmartDashboard.putNumber("Rev4[0]SpeedActual",m_frontLeft.getState().speedMetersPerSecond);
+        SmartDashboard.putNumber("Rev4[0]AngleMotorPower",m_frontLeft.m_turningSparkMax.get());
+
+        SmartDashboard.putNumber("Rev4[1]AngleRadis",swerveModuleStates[1].angle.getRadians());
+        SmartDashboard.putNumber("Rev4[1]Speed"     ,swerveModuleStates[1].speedMetersPerSecond);
+        SmartDashboard.putNumber("Rev4[1]AngleActual",m_frontRight.getState().angle.getRadians());
+        SmartDashboard.putNumber("Rev4[1]SpeedActual",m_frontRight.getState().speedMetersPerSecond);
+        SmartDashboard.putNumber("Rev4[1]AngleMotorPower",m_frontRight.m_turningSparkMax.get());
+
+        SmartDashboard.putNumber("Rev4[2]AngleRadis",swerveModuleStates[2].angle.getRadians());
+        SmartDashboard.putNumber("Rev4[2]Speed"     ,swerveModuleStates[2].speedMetersPerSecond);
+        SmartDashboard.putNumber("Rev4[2]AngleActual",m_rearLeft.getState().angle.getRadians());
+        SmartDashboard.putNumber("Rev4[2]SpeedActual",m_rearLeft.getState().speedMetersPerSecond);
+         SmartDashboard.putNumber("Rev4[2]AngleMotorPower",m_rearLeft.m_turningSparkMax.get());
+
+        SmartDashboard.putNumber("Rev4[3]AngleRadis",swerveModuleStates[3].angle.getRadians());
+        SmartDashboard.putNumber("Rev4[3]Speed"     ,swerveModuleStates[3].speedMetersPerSecond);
+        SmartDashboard.putNumber("Rev4[3]AngleActual",m_rearRight.getState().angle.getRadians());
+        SmartDashboard.putNumber("Rev4[3]SpeedActual",m_rearRight.getState().speedMetersPerSecond);
+        SmartDashboard.putNumber("Rev4[3]AngleMotorPower",m_rearRight.m_turningSparkMax.get());
+      }
+
 
   /** Sets the wheels into an X formation to prevent movement. */
   public void setX() {
