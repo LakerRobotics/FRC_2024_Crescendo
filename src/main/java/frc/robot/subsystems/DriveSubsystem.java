@@ -73,7 +73,7 @@ public class DriveSubsystem extends SubsystemBase {
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
 m_frontLeft.m_turningSparkMax.setInverted(false);
-m_frontRight.m_drivingSparkMax.setInverted(true);
+//m_frontRight.m_drivingSparkMax.setInverted(true);
 //m_rearLeft.m_turningSparkMax.setInverted(true);
 m_rearRight.m_turningSparkMax.setInverted(false);
   }
