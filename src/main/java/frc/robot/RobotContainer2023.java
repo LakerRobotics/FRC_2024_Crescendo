@@ -15,6 +15,10 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.ArmHomePosition;
+import frc.robot.commands.ArmIntakePosition;
+import frc.robot.commands.Autos;
+import frc.robot.commands.IntakeRunCommand;
 import frc.robot.commands.SetSwerveDrive2023;
 import frc.robot.simulation.FieldSim;
 import frc.robot.subsystems.ArmSubsystem;
@@ -138,17 +142,27 @@ m_robotDriveREV.setDefaultCommand(
 
     new JoystickButton(rightJoystick, PS4Controller.Button.kL1.value)
         .onTrue(new InstantCommand(() -> m_arm.setTargetPosition(Constants.Arm.kHomePosition)));
+     
+    new Trigger( 
+      () -> 
+           Math.abs(rightJoystick.getLeftY()) > 0.03 )
+           .onTrue(new RunCommand(() -> m_arm.runManual(rightJoystick.getLeftY()),m_arm));
 
     // intake controls (run while button is held down, run retract command once when the button is released)
     new Trigger(
             () ->
                 rightJoystick.getR2Axis()
                     > Constants.OIConstants.kTriggerButtonThreshold)
-        .whileTrue(new RunCommand(() -> m_intake.setPower(Constants.Intake.kIntakePower), m_intake))
+        .whileTrue(new InstantCommand(() -> m_arm.setTargetPosition(Constants.Arm.kIntakePosition)))
         .onFalse(m_intake.retract());
      
     new JoystickButton(rightJoystick, PS4Controller.Button.kTriangle.value)
         .whileTrue(new RunCommand(() -> m_intake.setPower(-1.0)));
+
+    new Trigger( 
+      () -> 
+           Math.abs(rightJoystick.getRightX()) > 0.03 )
+           .onTrue(new RunCommand(() -> m_intake.runManual(rightJoystick.getRightX()),m_intake));
 
     // launcher controls (button to pre-spin the launcher and button to launch)
     new JoystickButton(rightJoystick, PS4Controller.Button.kCircle.value)
@@ -167,7 +181,7 @@ m_robotDriveREV.setDefaultCommand(
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return new WaitCommand(0);
+    return Autos.ShootSpeaker(m_arm,m_launcher,m_intake);
   }
   
   public void periodic() {

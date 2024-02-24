@@ -81,6 +81,14 @@ public class IntakeSubsystem extends SubsystemBase {
     return newCommand;
   }
 
+  public void runManual(double _power) {
+    // set the power of the motor
+    m_motor.set(_power );
+    m_power = _power; // this variable is only used for logging or debugging if needed
+  }
+
+
+
   /**
    * Constructs a command that feeds a note into the launcher by running the intake for a set amount of time.
    * This command takes control of the launcher subsystem to make sure the wheels keep spinning during the launch sequence.
