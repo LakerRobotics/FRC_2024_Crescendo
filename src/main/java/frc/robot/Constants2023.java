@@ -54,8 +54,8 @@ public final class Constants2023 {
   }
 
   public static final class Swerve {
-    public static final double kTrackWidth = Units.inchesToMeters(17);
-    public static final double kWheelBase = Units.inchesToMeters(18);
+    public static final double kTrackWidth = Units.inchesToMeters(16.5);
+    public static final double kWheelBase = Units.inchesToMeters(21.75);
 
     public static final double kDeadband = 0;
 

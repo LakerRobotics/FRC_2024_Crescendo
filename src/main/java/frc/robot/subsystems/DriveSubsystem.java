@@ -72,10 +72,10 @@ public class DriveSubsystem extends SubsystemBase {
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
-m_frontLeft.m_turningSparkMax.setInverted(false);
+//m_frontLeft.m_turningSparkMax.setInverted(false);
 //m_frontRight.m_drivingSparkMax.setInverted(true);
 //m_rearLeft.m_turningSparkMax.setInverted(true);
-m_rearRight.m_turningSparkMax.setInverted(false);
+//m_rearRight.m_turningSparkMax.setInverted(false);
   }
 
   @Override
@@ -214,25 +214,25 @@ SmartDashboard.putNumber("REV3rotDelivered", rotDelivered);
         SmartDashboard.putNumber("Rev4[0]Speed"     ,swerveModuleStates[0].speedMetersPerSecond);
         SmartDashboard.putNumber("Rev4[0]AngleActual",m_frontLeft.getState().angle.getRadians());
         SmartDashboard.putNumber("Rev4[0]SpeedActual",m_frontLeft.getState().speedMetersPerSecond);
-        SmartDashboard.putNumber("Rev4[0]AngleMotorPower",m_frontLeft.m_turningSparkMax.get());
+//        SmartDashboard.putNumber("Rev4[0]AngleMotorPower",m_frontLeft.m_turningSparkMax.get());
 
         SmartDashboard.putNumber("Rev4[1]AngleRadis",swerveModuleStates[1].angle.getRadians());
         SmartDashboard.putNumber("Rev4[1]Speed"     ,swerveModuleStates[1].speedMetersPerSecond);
         SmartDashboard.putNumber("Rev4[1]AngleActual",m_frontRight.getState().angle.getRadians());
         SmartDashboard.putNumber("Rev4[1]SpeedActual",m_frontRight.getState().speedMetersPerSecond);
-        SmartDashboard.putNumber("Rev4[1]AngleMotorPower",m_frontRight.m_turningSparkMax.get());
+//        SmartDashboard.putNumber("Rev4[1]AngleMotorPower",m_frontRight.m_turningSparkMax.get());
 
         SmartDashboard.putNumber("Rev4[2]AngleRadis",swerveModuleStates[2].angle.getRadians());
         SmartDashboard.putNumber("Rev4[2]Speed"     ,swerveModuleStates[2].speedMetersPerSecond);
         SmartDashboard.putNumber("Rev4[2]AngleActual",m_rearLeft.getState().angle.getRadians());
         SmartDashboard.putNumber("Rev4[2]SpeedActual",m_rearLeft.getState().speedMetersPerSecond);
-         SmartDashboard.putNumber("Rev4[2]AngleMotorPower",m_rearLeft.m_turningSparkMax.get());
+//         SmartDashboard.putNumber("Rev4[2]AngleMotorPower",m_rearLeft.m_turningSparkMax.get());
 
         SmartDashboard.putNumber("Rev4[3]AngleRadis",swerveModuleStates[3].angle.getRadians());
         SmartDashboard.putNumber("Rev4[3]Speed"     ,swerveModuleStates[3].speedMetersPerSecond);
         SmartDashboard.putNumber("Rev4[3]AngleActual",m_rearRight.getState().angle.getRadians());
         SmartDashboard.putNumber("Rev4[3]SpeedActual",m_rearRight.getState().speedMetersPerSecond);
-        SmartDashboard.putNumber("Rev4[3]AngleMotorPower",m_rearRight.m_turningSparkMax.get());
+//        SmartDashboard.putNumber("Rev4[3]AngleMotorPower",m_rearRight.m_turningSparkMax.get());
       }
 
 
