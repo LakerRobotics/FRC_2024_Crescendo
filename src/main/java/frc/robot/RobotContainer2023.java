@@ -8,6 +8,7 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.PS4Controller;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -57,6 +58,9 @@ public class RobotContainer2023 {
   static PS4Controller leftJoystick  = new PS4Controller(USB.leftJoystick);
   static PS4Controller rightJoystick = new PS4Controller(USB.rightJoystick);
 
+   // A chooser for autonomous commands
+  SendableChooser<Command> m_chooser = new SendableChooser<>();
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer2023() {
     ROBOT = PROD;
@@ -69,6 +73,7 @@ public class RobotContainer2023 {
 
      // Initialize Logitech camera
     CameraServer.startAutomaticCapture();  // set the arm subsystem to run the "runAutomatic" function continuously when no other command is running
+
     m_arm.setDefaultCommand(new RunCommand(() -> m_arm.runAutomatic(), m_arm));
 
     // set the intake to stop (0 power) when no other command is running
@@ -79,6 +84,8 @@ public class RobotContainer2023 {
 
    final NetworkTable limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
 
+// Autons
+    m_chooser.setDefaultOption("Autonomous Command", Autos.ShootSpeaker(m_arm,m_launcher,m_intake));
 
 
  
@@ -180,10 +187,9 @@ m_robotDriveREV.setDefaultCommand(
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An example command will be run in autonomous
-    return Autos.ShootSpeaker(m_arm,m_launcher,m_intake);
+    // The selected command will be run in autonomous
+    return m_chooser.getSelected();
   }
-  
   public void periodic() {
  //   m_fieldSim.periodic();
   }

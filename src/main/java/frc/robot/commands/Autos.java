@@ -14,10 +14,12 @@ import edu.wpi.first.wpilibj2.command.Commands;
 public final class Autos{
   /** Example static factory for an autonomous command. */
   public static Command ShootSpeaker(ArmSubsystem mArmSubsystem, LauncherSubsystem mLauncherSubsystem, IntakeSubsystem mIntakeSubsystem) {
+
+//    addCommands(new IntakeCubeOut(theIntake).withTimeout(2));
     return Commands.sequence(
-    new ArmHomePosition(mArmSubsystem),  
-    new LauncherRun(mLauncherSubsystem),
-    new IntakeRunCommand(mIntakeSubsystem));
+    new ArmHomePosition(mArmSubsystem).withTimeout(1),  
+    new LauncherRun(mLauncherSubsystem).withTimeout(2),
+    new IntakeRunCommand(mIntakeSubsystem).withTimeout(2));
   }
 
   private Autos() {
