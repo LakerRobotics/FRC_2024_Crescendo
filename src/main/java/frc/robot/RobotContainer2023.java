@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.ArmHomePosition;
 import frc.robot.commands.ArmIntakePosition;
-import frc.robot.commands.Autos;
+import frc.robot.commands.AutoShootSpeaker;
 import frc.robot.commands.IntakeRunCommand;
 import frc.robot.commands.SetSwerveDrive2023;
 import frc.robot.simulation.FieldSim;
@@ -84,8 +84,6 @@ public class RobotContainer2023 {
 
    final NetworkTable limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
 
-// Autons
-    m_chooser.setDefaultOption("Autonomous Command", Autos.ShootSpeaker(m_arm,m_launcher,m_intake));
 
 
  
@@ -107,12 +105,11 @@ public class RobotContainer2023 {
                   true));
     }
     else{
-//      m_robotDrive = 
-m_robotDriveREV.setDefaultCommand(
-  // The left stick controls translation of the robot.
-  // Turning is controlled by the X axis of the right stick.
-  new RunCommand(
-      () ->
+      m_robotDriveREV.setDefaultCommand(
+      // The left stick controls translation of the robot.
+      // Turning is controlled by the X axis of the right stick.
+      new RunCommand(
+        () ->
           m_robotDriveREV.drive(
               -GamepadUtils.squareInput(
                   leftJoystick.getLeftY(), OIConstants.kDriveDeadband),
@@ -124,6 +121,9 @@ m_robotDriveREV.setDefaultCommand(
             true),
       m_robotDriveREV));
     }
+
+    //SETUP AUTONOMOUS CODE
+    configureAutos();
   }
 
   /**
@@ -193,4 +193,10 @@ m_robotDriveREV.setDefaultCommand(
   public void periodic() {
  //   m_fieldSim.periodic();
   }
+
+  private void configureAutos() {
+    // Set the Defualt Auton
+    m_chooser.setDefaultOption("Autonomous Command", new AutoShootSpeaker(m_arm,m_launcher,m_intake));
+  }
+
 }
