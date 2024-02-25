@@ -30,7 +30,7 @@ public final class Constants {
   public static final class Arm {
     public static final int kArmCanId = 29;
     public static final boolean kArmInverted = true;
-    public static final int kCurrentLimit = 40;
+    public static final int kCurrentLimit = 60;
 
     public static final double kSoftLimitReverse = -1.15;
     public static final double kSoftLimitForward = 0.0;

@@ -195,8 +195,10 @@ public class RobotContainer2023 {
   }
 
   private void configureAutos() {
+    SmartDashboard.putData("auton chooser",m_chooser);
     // Set the Defualt Auton
-    m_chooser.setDefaultOption("Autonomous Command", new AutoShootSpeaker(m_arm,m_launcher,m_intake));
+    m_chooser.setDefaultOption("Shoot Note", new AutoShootSpeaker(m_arm,m_launcher,m_intake));
   }
+
 
 }
