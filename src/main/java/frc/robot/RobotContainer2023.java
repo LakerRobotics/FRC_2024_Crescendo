@@ -20,7 +20,7 @@ import frc.robot.commands.ArmHomePosition;
 import frc.robot.commands.ArmIntakePosition;
 import frc.robot.commands.AutoLauncher;
 import frc.robot.commands.AutoShootSpeaker;
-import frc.robot.commands.IntakeRunCommand;
+import frc.robot.commands.IntakeSetPower;
 import frc.robot.commands.SetSwerveDrive2023;
 import frc.robot.simulation.FieldSim;
 import frc.robot.subsystems.ArmSubsystem;
@@ -198,10 +198,12 @@ public class RobotContainer2023 {
   private void configureAutos() {
     SmartDashboard.putData("auton chooser",m_chooser);
     // Set the Defualt Auton
-    m_chooser.setDefaultOption("Shoot Note", new AutoShootSpeaker(m_arm,m_launcher,m_intake));
+    m_chooser.setDefaultOption("Shoot Note", new AutoShootSpeaker(m_arm,m_launcher,m_intake,m_robotDriveREV));
     m_chooser.addOption("Launcher Test", new AutoLauncher(m_launcher));
-    m_chooser.addOption("Shoot Note ", new AutoShootSpeaker(m_arm,m_launcher,m_intake));
+    m_chooser.addOption("Shoot Note ", new AutoShootSpeaker(m_arm,m_launcher,m_intake,m_robotDriveREV));
   }
+
+  
 
 
 }

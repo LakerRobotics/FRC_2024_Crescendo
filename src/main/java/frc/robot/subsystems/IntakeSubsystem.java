@@ -16,11 +16,11 @@ import frc.robot.Constants;
 public class IntakeSubsystem extends SubsystemBase {
 
   private CANSparkMax m_motor;
-  private RelativeEncoder m_encoder;
+//positionControl  private RelativeEncoder m_encoder;
   private SparkPIDController m_controller;
 
-  private boolean m_positionMode;
-  private double m_targetPosition;
+//positionControl  private boolean m_positionMode;
+//positionControl  private double m_targetPosition;
   private double m_power;
 
   /**
@@ -33,17 +33,19 @@ public class IntakeSubsystem extends SubsystemBase {
     m_motor.setSmartCurrentLimit(Constants.Intake.kCurrentLimit);
     m_motor.setIdleMode(IdleMode.kBrake);
 
-    m_encoder = m_motor.getEncoder(SparkRelativeEncoder.Type.kHallSensor, 42);
+//positionControl    m_encoder = m_motor.getEncoder(SparkRelativeEncoder.Type.kHallSensor, 42);
 
-    m_controller = m_motor.getPIDController();
-    PIDGains.setSparkMaxGains(m_controller, Constants.Intake.kPositionGains);
+//positionControl    m_controller = m_motor.getPIDController();
+//positionControl    PIDGains.setSparkMaxGains(m_controller, Constants.Intake.kPositionGains);
 
     m_motor.burnFlash();
 
-    m_positionMode = false;
-    m_targetPosition = m_encoder.getPosition();
+//positionControl    m_positionMode = false;
+//positionControl    m_targetPosition = m_encoder.getPosition();
     m_power = 0.0;
   }
+
+  
 
   /**
    * Set the power to spin the motor at.
@@ -51,8 +53,8 @@ public class IntakeSubsystem extends SubsystemBase {
    * @param _power The power to apply to the motor (from -1.0 to 1.0).
    */
   public void setPower(double _power) {
-    m_positionMode = false;
-    m_targetPosition = m_encoder.getPosition();
+//positionControl    m_positionMode = false;
+//positionControl    m_targetPosition = m_encoder.getPosition();
     m_power = _power;
   }
 
@@ -66,13 +68,14 @@ public class IntakeSubsystem extends SubsystemBase {
         new Command() {
           @Override
           public void initialize() {
-            m_positionMode = true;
-            m_targetPosition = m_encoder.getPosition() + Constants.Intake.kRetractDistance;
+//positionControl            m_positionMode = true;
+//positionControl            m_targetPosition = m_encoder.getPosition() + Constants.Intake.kRetractDistance;
           }
 
           @Override
           public boolean isFinished() {
-            return isNearTarget();
+             return true;
+//positionControl            return isNearTarget();
           }
         };
 
@@ -149,7 +152,8 @@ public class IntakeSubsystem extends SubsystemBase {
    * @return Whether the position is within the tolerance.
    */
   public boolean isNearTarget() {
-    return Math.abs(m_encoder.getPosition() - m_targetPosition)
-        < Constants.Intake.kPositionTolerance;
+    return true;
+ //positionControl   return Math.abs(m_encoder.getPosition() - m_targetPosition)
+ //positionControl       < Constants.Intake.kPositionTolerance;
   }
 }
