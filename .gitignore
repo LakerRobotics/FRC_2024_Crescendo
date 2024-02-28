@@ -46,3 +46,9 @@ build/tmp/compileJava/compileTransaction/stash-dir/SetSwerveDrive2023.class.uniq
 *.uniqueId4
 *.uniqueId5
 *.uniqueId5
+.gradle/buildOutputCleanup/cache.properties
+.gradle/buildOutputCleanup/cache.properties
+.gradle/8.1.1/gc.properties
+.gradle/8.1.1/dependencies-accessors/gc.properties
+*.bin
+.gradle/buildOutputCleanup/outputFiles.bin

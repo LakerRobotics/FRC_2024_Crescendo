@@ -20,6 +20,7 @@ import frc.robot.commands.ArmHomePosition;
 import frc.robot.commands.ArmIntakePosition;
 import frc.robot.commands.AutoLauncher;
 import frc.robot.commands.AutoShootSpeaker;
+import frc.robot.commands.AutoShootSpeakerThenFollowPath;
 import frc.robot.commands.IntakeSetPower;
 import frc.robot.commands.SetSwerveDrive2023;
 import frc.robot.simulation.FieldSim;
@@ -201,6 +202,7 @@ public class RobotContainer2023 {
     m_chooser.setDefaultOption("Shoot Note", new AutoShootSpeaker(m_arm,m_launcher,m_intake,m_robotDriveREV));
     m_chooser.addOption("Launcher Test", new AutoLauncher(m_launcher));
     m_chooser.addOption("Shoot Note ", new AutoShootSpeaker(m_arm,m_launcher,m_intake,m_robotDriveREV));
+    m_chooser.addOption("Shoot Note then follow Path ", new AutoShootSpeakerThenFollowPath(m_arm,m_launcher,m_intake,m_robotDriveREV,"Seth Path"));
   }
 
   
