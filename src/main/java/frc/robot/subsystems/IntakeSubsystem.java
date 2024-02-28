@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkBase.SoftLimitDirection;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
@@ -12,12 +13,13 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.PIDGains;
 import frc.robot.Constants;
+import frc.robot.commands.IntakeSetPower;
 
 public class IntakeSubsystem extends SubsystemBase {
 
   private CANSparkMax m_motor;
 //positionControl  private RelativeEncoder m_encoder;
-  private SparkPIDController m_controller;
+//positionControl private SparkPIDController m_controller;
 
 //positionControl  private boolean m_positionMode;
 //positionControl  private double m_targetPosition;
@@ -30,9 +32,11 @@ public class IntakeSubsystem extends SubsystemBase {
     // create a new SPARK MAX and configure it
     m_motor = new CANSparkMax(Constants.Intake.kCanId, MotorType.kBrushless);
     m_motor.setInverted(false);
-    m_motor.setSmartCurrentLimit(Constants.Intake.kCurrentLimit);
+    m_motor.enableSoftLimit(SoftLimitDirection.kForward,false);
+    m_motor.enableSoftLimit(SoftLimitDirection.kReverse,false);
+   // m_motor.setSmartCurrentLimit(Constants.Intake.kCurrentLimit);
     m_motor.setIdleMode(IdleMode.kBrake);
-
+m_motor.set(m_power);
 //positionControl    m_encoder = m_motor.getEncoder(SparkRelativeEncoder.Type.kHallSensor, 42);
 
 //positionControl    m_controller = m_motor.getPIDController();
@@ -43,6 +47,9 @@ public class IntakeSubsystem extends SubsystemBase {
 //positionControl    m_positionMode = false;
 //positionControl    m_targetPosition = m_encoder.getPosition();
     m_power = 0.0;
+
+    setDefaultCommand(new IntakeSetPower(this,0));
+  
   }
 
   
