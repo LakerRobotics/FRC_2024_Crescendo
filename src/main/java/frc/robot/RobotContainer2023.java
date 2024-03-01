@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.ArmHomePosition;
 import frc.robot.commands.ArmIntakePosition;
 import frc.robot.commands.AutoLauncher;
-import frc.robot.commands.AutoShootSpeaker;
+import frc.robot.commands.AmpShoot;
 import frc.robot.commands.AutoShootSpeakerThenFollowPath;
 import frc.robot.commands.IntakeSetPower;
 import frc.robot.commands.SetSwerveDrive2023;
@@ -180,6 +180,8 @@ public class RobotContainer2023 {
     new JoystickButton(rightJoystick, PS4Controller.Button.kR1.value)
         .onTrue(m_intake.feedLauncher(m_launcher));
   
+    new JoystickButton(rightJoystick, PS4Controller.Button.kCross.value)
+        .onTrue(new AmpShoot(m_arm, m_launcher, m_intake, m_robotDriveREV));
 
   }
 
@@ -199,9 +201,9 @@ public class RobotContainer2023 {
   private void configureAutos() {
     SmartDashboard.putData("auton chooser",m_chooser);
     // Set the Defualt Auton
-    m_chooser.setDefaultOption("Shoot Note", new AutoShootSpeaker(m_arm,m_launcher,m_intake,m_robotDriveREV));
+    m_chooser.setDefaultOption("Shoot Note", new AmpShoot(m_arm,m_launcher,m_intake,m_robotDriveREV));
     m_chooser.addOption("Launcher Test", new AutoLauncher(m_launcher));
-    m_chooser.addOption("Shoot Note ", new AutoShootSpeaker(m_arm,m_launcher,m_intake,m_robotDriveREV));
+    m_chooser.addOption("Shoot Note ", new AmpShoot(m_arm,m_launcher,m_intake,m_robotDriveREV));
     m_chooser.addOption("Shoot Note then follow Path ", new AutoShootSpeakerThenFollowPath(m_arm,m_launcher,m_intake,m_robotDriveREV,"Seth Path"));
   }
 

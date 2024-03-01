@@ -14,11 +14,17 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.ADIS16470_IMU.IMUAxis;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.utils.SwerveUtils;
+import edu.wpi.first.math.trajectory.Trajectory;
+//import pathplanner.lib.config.HolonomicPathFollowerConfig;
+//import com.pathplanner.lib.auto.AutoBuilder;
+//import com.pathplanner.lib.util.PathPlannerLogging;
 
 public class DriveSubsystem extends SubsystemBase {
   // Create MAXSwerveModules
@@ -47,7 +53,7 @@ public class DriveSubsystem extends SubsystemBase {
           DriveConstants.kBackRightChassisAngularOffset);
 
   // The gyro sensor
-  private final ADIS16470_IMU m_gyro = new ADIS16470_IMU();
+private ADXRS450_Gyro m_gyro = new ADXRS450_Gyro();
 
   // Slew rate filter variables for controlling lateral acceleration
   private double m_currentRotation = 0.0;
@@ -62,7 +68,7 @@ public class DriveSubsystem extends SubsystemBase {
   SwerveDriveOdometry m_odometry =
       new SwerveDriveOdometry(
           DriveConstants.kDriveKinematics,
-          Rotation2d.fromDegrees(m_gyro.getAngle(IMUAxis.kZ)),
+          Rotation2d.fromDegrees(-m_gyro.getAngle()),
           new SwerveModulePosition[] {
             m_frontLeft.getPosition(),
             m_frontRight.getPosition(),
@@ -70,6 +76,33 @@ public class DriveSubsystem extends SubsystemBase {
             m_rearRight.getPosition()
           });
 
+          // Configure AutoBuilder last
+/*     AutoBuilder.configureHolonomic(
+            this::getPose, // Robot pose supplier
+            this::resetPose, // Method to reset odometry (will be called if your auto has a starting pose)
+            this::getRobotRelativeSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+            this::driveRobotRelative, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
+            new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
+                    new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
+                    new PIDConstants(5.0, 0.0, 0.0), // Rotation PID constants
+                    4.5, // Max module speed, in m/s
+                    0.4, // Drive base radius in meters. Distance from robot center to furthest module.
+                    new ReplanningConfig() // Default path replanning config. See the API for the options here
+            ),
+            () -> {
+              // Boolean supplier that controls when the path will be mirrored for the red alliance
+              // This will flip the path being followed to the red side of the field.
+              // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+
+              var alliance = DriverStation.getAlliance();
+              if (alliance.isPresent()) {
+                return alliance.get() == DriverStation.Alliance.Red;
+              }
+              return false;
+            },
+            this // Reference to this subsystem to set requirements
+    );
+*/
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
 //m_frontLeft.m_turningSparkMax.setInverted(false);
@@ -82,7 +115,7 @@ public class DriveSubsystem extends SubsystemBase {
   public void periodic() {
     // Update the odometry in the periodic block
     m_odometry.update(
-        Rotation2d.fromDegrees(m_gyro.getAngle(IMUAxis.kZ)),
+        Rotation2d.fromDegrees(-m_gyro.getAngle()),
         new SwerveModulePosition[] {
           m_frontLeft.getPosition(),
           m_frontRight.getPosition(),
@@ -107,7 +140,7 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public void resetOdometry(Pose2d pose) {
     m_odometry.resetPosition(
-        Rotation2d.fromDegrees(m_gyro.getAngle(IMUAxis.kZ)),
+        Rotation2d.fromDegrees(-m_gyro.getAngle()),
         new SwerveModulePosition[] {
           m_frontLeft.getPosition(),
           m_frontRight.getPosition(),
@@ -202,7 +235,7 @@ SmartDashboard.putNumber("REV3rotDelivered", rotDelivered);
                     xSpeedDelivered,
                     ySpeedDelivered,
                     rotDelivered,
-                    Rotation2d.fromDegrees(m_gyro.getAngle(IMUAxis.kZ)))
+                    Rotation2d.fromDegrees(-m_gyro.getAngle()))
                 : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
     SwerveDriveKinematics.desaturateWheelSpeeds(
         swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
@@ -277,7 +310,7 @@ SmartDashboard.putNumber("REV3rotDelivered", rotDelivered);
    * @return the robot's heading in degrees, from -180 to 180
    */
   public double getHeading() {
-    return Rotation2d.fromDegrees(m_gyro.getAngle(IMUAxis.kZ)).getDegrees();
+    return Rotation2d.fromDegrees(-m_gyro.getAngle()).getDegrees();
   }
 
   /**
@@ -286,6 +319,23 @@ SmartDashboard.putNumber("REV3rotDelivered", rotDelivered);
    * @return The turn rate of the robot, in degrees per second
    */
   public double getTurnRate() {
-    return m_gyro.getRate(IMUAxis.kZ) * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
+    return -m_gyro.getRate() * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
+  }
+
+  public void followTrajectory(Trajectory.State desiredState) {
+    // Assuming desiredState includes pose and velocity
+    Pose2d desiredPose = desiredState.poseMeters;
+
+    // You might need to calculate the robot's velocity, rotation, etc., based on desiredState
+    // This is a simplified example. You'll need to adjust it based on your trajectory's data and your robot's capabilities
+
+    // Calculate swerve module states to follow the trajectory
+    SwerveModuleState[] swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(
+        // For simplicity, assuming no rotation - you'll likely need to include rotation calculation here
+        new ChassisSpeeds(desiredState.velocityMetersPerSecond, 0, 0)
+    );
+
+    // Set the calculated swerve module states to the actual modules
+    setModuleStates(swerveModuleStates);
   }
 }

@@ -11,29 +11,27 @@ import frc.robot.subsystems.LauncherSubsystem;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
-  public class AutoShootSpeaker extends SequentialCommandGroup{
+  public class AmpShoot extends SequentialCommandGroup{
 
 
-  public AutoShootSpeaker (ArmSubsystem mArmSubsystem, LauncherSubsystem mLauncherSubsystem, IntakeSubsystem mIntakeSubsystem,DriveSubsystem m_driveTrain) {
+  public AmpShoot (ArmSubsystem mArmSubsystem, LauncherSubsystem mLauncherSubsystem, IntakeSubsystem mIntakeSubsystem,DriveSubsystem m_driveTrain) {
     // Make sure the arm is up (should already be there)
-    addCommands( new ArmHomePosition(mArmSubsystem).withTimeout(1)); 
+//   addCommands( new ArmHomePosition(mArmSubsystem).withTimeout(1)); 
     
     // Spin up the Launcher
-    addCommands( new LauncherAutoPower(mLauncherSubsystem,1,1).withTimeout(2));
-
-    //addCommands(new IntakeSetPower(mIntakeSubsystem, 1).withTimeout(2));
+    addCommands( new IntakeSetPower(mIntakeSubsystem, 0.2).withTimeout(0.5));
 
     // Now that the launcher is spinning, index the note into the launcher by running the intake
        // Setup the command
         ParallelCommandGroup runLauncerAndIntake = new ParallelCommandGroup(
-           new LauncherAutoPower(mLauncherSubsystem,1,1).withTimeout(2),
-           new IntakeSetPower(mIntakeSubsystem, 1).withTimeout(2)
+//           new ArmHomePosition(mArmSubsystem).withTimeout(2), 
+           new LauncherAutoPower(mLauncherSubsystem,0.5,0.7).withTimeout(2),
+           new IntakeSetPower(mIntakeSubsystem, 0.2).withTimeout(2)
          );
 //         runLauncerAndIntake.withTimeout(2);
       //Add the command to the sequence
         addCommands(runLauncerAndIntake);
 
-    addCommands( new DriveTrainMove(m_driveTrain).withTimeout(2));
     
   }
   

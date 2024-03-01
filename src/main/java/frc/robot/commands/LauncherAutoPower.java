@@ -4,13 +4,15 @@
 
 package frc.robot.commands;
 
-import frc.robot.Constants;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.LauncherSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
+
 /** An example command that uses an example subsystem. */
-public class LauncherRun extends Command {
+public class LauncherAutoPower extends Command {
+  double m_power_top =0;
+  double m_power_bottom =0;
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final LauncherSubsystem m_launcher;
  
@@ -19,8 +21,10 @@ public class LauncherRun extends Command {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public LauncherRun(LauncherSubsystem subsystem) {
+  public LauncherAutoPower(LauncherSubsystem subsystem, double power_top, double power_bottom) {
     m_launcher = subsystem;
+    m_power_top = power_top;
+    m_power_bottom = power_bottom;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
   }
@@ -32,14 +36,16 @@ public class LauncherRun extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-     m_launcher.setPower(Constants.Launcher.kBottomPower, Constants.Launcher.kBottomPower);
+     m_launcher.setPower(m_power_top,m_power_bottom);
      m_launcher.runLauncher();
 
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    m_launcher.stopLauncher();
+  }
 
   // Returns true when the command should end.
   @Override

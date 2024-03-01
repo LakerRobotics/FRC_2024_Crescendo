@@ -5,6 +5,7 @@ import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.commands.LauncherAutoPower;
 
 public class LauncherSubsystem extends SubsystemBase {
 
@@ -13,6 +14,9 @@ public class LauncherSubsystem extends SubsystemBase {
 
   private boolean m_launcherRunning;
 
+  double m_power_top = Constants.Launcher.kBottomPower;
+  double m_power_bottom = Constants.Launcher.kBottomPower;
+        
   /**
    * Creates a new LauncherSubsystem.
    */
@@ -35,6 +39,8 @@ public class LauncherSubsystem extends SubsystemBase {
     m_bottomMotor.burnFlash();
 
     m_launcherRunning = false;
+
+    setDefaultCommand(new LauncherAutoPower(this,0,0));
   }
 
   /**
@@ -51,12 +57,18 @@ public class LauncherSubsystem extends SubsystemBase {
     m_launcherRunning = false;
   }
 
+  public void setPower(double power_top, double power_bottom){
+    m_power_top = power_top;
+    m_power_bottom = power_bottom;
+  }
+
   @Override
   public void periodic() {  // this method will be called once per scheduler run
     // set the launcher motor powers based on whether the launcher is on or not
     if (m_launcherRunning) {
-      m_topMotor.set(Constants.Launcher.kTopPower);
-      m_bottomMotor.set(Constants.Launcher.kBottomPower);
+      
+      m_topMotor.set(m_power_top);
+      m_bottomMotor.set(m_power_bottom);
     } else {
       m_topMotor.set(0.0);
       m_bottomMotor.set(0.0);
