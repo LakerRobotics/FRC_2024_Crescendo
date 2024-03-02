@@ -77,8 +77,8 @@ public final class Constants {
 
     public static final int kCurrentLimit = 80;
 
-    public static final double kTopPower = 0.7;
-    public static final double kBottomPower = 0.8;
+    public static final double kTopPower = 1;
+    public static final double kBottomPower = 1;
   }
 
   public static final class DriveConstants {

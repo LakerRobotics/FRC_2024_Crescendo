@@ -4,7 +4,11 @@
 
 package frc.robot;
   
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.path.PathPlannerPath;
+
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.PS4Controller;
@@ -19,9 +23,11 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.ArmHomePosition;
 import frc.robot.commands.ArmIntakePosition;
 import frc.robot.commands.AutoLauncher;
+import frc.robot.commands.AutoShootSpeaker;
 import frc.robot.commands.AmpShoot;
 import frc.robot.commands.AutoShootSpeakerThenFollowPath;
 import frc.robot.commands.IntakeSetPower;
+import frc.robot.commands.LauncherRun;
 import frc.robot.commands.SetSwerveDrive2023;
 import frc.robot.simulation.FieldSim;
 import frc.robot.subsystems.ArmSubsystem;
@@ -175,13 +181,18 @@ public class RobotContainer2023 {
 
     // launcher controls (button to pre-spin the launcher and button to launch)
     new JoystickButton(rightJoystick, PS4Controller.Button.kCircle.value)
-        .whileTrue(new RunCommand(() -> m_launcher.runLauncher(), m_launcher));
+        //.whileTrue(new RunCommand(() -> m_launcher.runLauncher(), m_launcher));
+        .whileTrue(new LauncherRun(m_launcher));
 
     new JoystickButton(rightJoystick, PS4Controller.Button.kR1.value)
         .onTrue(m_intake.feedLauncher(m_launcher));
   
     new JoystickButton(rightJoystick, PS4Controller.Button.kCross.value)
         .onTrue(new AmpShoot(m_arm, m_launcher, m_intake, m_robotDriveREV));
+
+    // DriveTrainReset 
+    new JoystickButton(leftJoystick, PS4Controller.Button.kTriangle.value) 
+    .onTrue(new RunCommand(()-> m_robotDriveREV.zeroHeading()));
 
   }
 
@@ -201,10 +212,16 @@ public class RobotContainer2023 {
   private void configureAutos() {
     SmartDashboard.putData("auton chooser",m_chooser);
     // Set the Defualt Auton
-    m_chooser.setDefaultOption("Shoot Note", new AmpShoot(m_arm,m_launcher,m_intake,m_robotDriveREV));
+    m_chooser.setDefaultOption("Shoot Note", new AutoShootSpeaker(m_arm,m_launcher,m_intake,m_robotDriveREV));
     m_chooser.addOption("Launcher Test", new AutoLauncher(m_launcher));
-    m_chooser.addOption("Shoot Note ", new AmpShoot(m_arm,m_launcher,m_intake,m_robotDriveREV));
+    m_chooser.addOption("Shoot Note ", new AutoShootSpeaker(m_arm,m_launcher,m_intake,m_robotDriveREV));
     m_chooser.addOption("Shoot Note then follow Path ", new AutoShootSpeakerThenFollowPath(m_arm,m_launcher,m_intake,m_robotDriveREV,"Seth Path"));
+
+    //PathPlannerPath path = PathPlannerPath.fromPathFile("Example Path");
+    //m_chooser.addOption("Path: Example Path", AutoBuilder.followPath(path));
+    //PathPlannerPath path2 = PathPlannerPath.fromPathFile("Seth Path 2");
+    //m_chooser.addOption("Path: Seth Path 2", AutoBuilder.followPath(path2));
+
   }
 
   

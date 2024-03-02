@@ -32,7 +32,7 @@ public class LauncherRun extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-     m_launcher.setPower(Constants.Launcher.kBottomPower, Constants.Launcher.kBottomPower);
+     m_launcher.setPower(Constants.Launcher.kTopPower, Constants.Launcher.kBottomPower);
      m_launcher.runLauncher();
 
   }

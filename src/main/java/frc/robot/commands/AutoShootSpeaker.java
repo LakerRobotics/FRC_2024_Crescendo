@@ -9,6 +9,7 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LauncherSubsystem;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
   public class AutoShootSpeaker extends SequentialCommandGroup{
@@ -16,16 +17,18 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
   public AutoShootSpeaker (ArmSubsystem mArmSubsystem, LauncherSubsystem mLauncherSubsystem, IntakeSubsystem mIntakeSubsystem,DriveSubsystem m_driveTrain) {
     // Make sure the arm is up (should already be there)
-    addCommands( new ArmHomePosition(mArmSubsystem).withTimeout(1)); 
+    addCommands( new ArmHomePosition(mArmSubsystem).withTimeout(3)); 
+    // addCommands(new RunCommand(() -> mArmSubsystem.runManual(0.4),mArmSubsystem));
     
     // Spin up the Launcher
-    addCommands( new LauncherAutoPower(mLauncherSubsystem,1,1).withTimeout(2));
+    addCommands( new LauncherAutoPower(mLauncherSubsystem,0.9,1).withTimeout(2));
 
     //addCommands(new IntakeSetPower(mIntakeSubsystem, 1).withTimeout(2));
 
     // Now that the launcher is spinning, index the note into the launcher by running the intake
        // Setup the command
         ParallelCommandGroup runLauncerAndIntake = new ParallelCommandGroup(
+           new ArmHomePosition(mArmSubsystem).withTimeout(3),
            new LauncherAutoPower(mLauncherSubsystem,1,1).withTimeout(2),
            new IntakeSetPower(mIntakeSubsystem, 1).withTimeout(2)
          );
@@ -33,7 +36,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
       //Add the command to the sequence
         addCommands(runLauncerAndIntake);
 
-    addCommands( new DriveTrainMove(m_driveTrain).withTimeout(2));
+    addCommands( new DriveTrainMove(m_driveTrain).withTimeout(3));
     
   }
   
