@@ -7,18 +7,34 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkBase.SoftLimitDirection;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+
+import javax.management.modelmbean.ModelMBean;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxLimitSwitch;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.SparkRelativeEncoder;
+import com.revrobotics.CANDigitalInput.LimitSwitchPolarity;
+
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.PIDGains;
 import frc.robot.Constants;
 import frc.robot.Constants2023;
+import frc.robot.commands.ArmHomePosition;
 
 public class ArmSubsystem extends SubsystemBase {
+  // Enumeration for control modes
+     private enum MOD {
+      POSITION_CONTROL,
+      POWER_CONTROL,
+      VELOCITY_CONTROL
+  }
+  // Default control mode
+  private MOD mode = MOD.POSITION_CONTROL;
+
   private CANSparkMax m_motor;
   private RelativeEncoder m_encoder;
   private SparkPIDController m_controller;
@@ -35,6 +51,7 @@ public class ArmSubsystem extends SubsystemBase {
 
   /** Creates a new ArmSubsystem. */
   public ArmSubsystem() {
+
     // create a new SPARK MAX and configure it
     m_motor = new CANSparkMax(Constants.Arm.kArmCanId, MotorType.kBrushless);
     m_motor.setInverted(false);
@@ -62,17 +79,56 @@ public class ArmSubsystem extends SubsystemBase {
     m_timer.start();
 
     updateMotionProfile();
+
+    setDefaultCommand(new ArmHomePosition(this));
+  }
+  
+  // Set control mode to POSITION_CONTROL
+  private void setControlModePosition() {
+    m_motor.enableSoftLimit(SoftLimitDirection.kForward, true);
+    m_motor.enableSoftLimit(SoftLimitDirection.kReverse, true);
+      this.mode = MOD.POSITION_CONTROL;
   }
 
+  // Method to set control mode to VELOCITY_CONTROL
+  private void setControlModeVelocity() {
+    m_motor.enableSoftLimit(SoftLimitDirection.kForward, false);
+    m_motor.enableSoftLimit(SoftLimitDirection.kReverse, false);
+    this.mode = MOD.VELOCITY_CONTROL;
+  }
+
+  // Set control mode to POWER_CONTROL
+  private void setControlModePower() {
+    m_motor.enableSoftLimit(SoftLimitDirection.kForward, false);
+    m_motor.enableSoftLimit(SoftLimitDirection.kReverse, false);
+    this.mode = MOD.POWER_CONTROL;
+  }
+  private void setSoftLimtBasedOnCurrentLocation(){
+    m_motor.setSoftLimit(SoftLimitDirection.kForward, (float) Constants.Arm.kSoftLimitForward);
+    m_motor.setSoftLimit(SoftLimitDirection.kReverse, (float) Constants.Arm.kSoftLimitReverse);
+    setControlModePosition();
+  }
+  public void setCanSparkEncoderToZero() {
+    m_encoder.setPosition(0.0);
+}
   /**
    * Sets the target position and updates the motion profile if the target position changed.
    * @param _setpoint The new target position in radians.
   */
   public void setTargetPosition(double _setpoint) {
+    setControlModePosition();
     if (_setpoint != m_setpoint) {
       m_setpoint = _setpoint;
       updateMotionProfile();
     }
+  }
+  // return if the top (forward), limit switch is pressed
+  public boolean isLimitSwitchTopPressed(){
+    return m_motor.getForwardLimitSwitch(LimitSwitchPolarity.kNormallyOpen).get();
+  }
+  // return if the bottom (backward), limit switch is pressed
+  public boolean isLimitSwitchBottomPressed(){
+    return m_motor.getReverseLimitSwitch(LimitSwitchPolarity.kNormallyOpen).get();
   }
 
   /**Update the motion profile variables based on the current setpoint and the pre-configured motion constraints.*/
@@ -91,6 +147,7 @@ public class ArmSubsystem extends SubsystemBase {
    * The target position is the last set position with {@code setTargetPosition}.
    */
   public void runAutomatic() {
+    setControlModePosition();
     double elapsedTime = m_timer.get();
     if (m_profile.isFinished(elapsedTime)) {
       m_targetState = new TrapezoidProfile.State(m_setpoint, 0.0);
@@ -111,6 +168,7 @@ public class ArmSubsystem extends SubsystemBase {
    * @param _power The motor power to apply.
    */
   public void runManual(double _power) {
+    setControlModePower();
     // reset and zero out a bunch of automatic mode stuff so exiting manual mode happens cleanly and
     // passively
     m_setpoint = m_encoder.getPosition();
@@ -126,5 +184,9 @@ public class ArmSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() { // This method will be called once per scheduler run
+  }
+
+  public double getArmPosition() {
+    return m_encoder.getPosition();
   }
 }
