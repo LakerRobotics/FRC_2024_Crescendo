@@ -35,19 +35,22 @@ public class ArmHomePosition extends Command {
   @Override
   public void execute() {
     if(m_subsystem.isLimitSwitchTopPressed() == false){
-      m_subsystem.setTargetPosition(Constants.Arm.kHomePosition);
-    }
-    // limit switch at top hit, see if past the zero (positive) and if so reset this as the new zero
-    else{
+    
+      //see if past the zero (positive) and if so reset this as the new zero
       if(m_subsystem.getArmPosition()>0){
         m_subsystem.setCanSparkEncoderToZero();
-        m_subsystem.runManual(0);// this is redudent but just to help document and understand hitting the limit switch will put power to zero
-      }
-      // continue running the arm up till hits the limit swithc (the home position)
-      else{
         m_subsystem.runManual(0.2);
       }
+      else{
+        m_subsystem.setTargetPosition(Constants.Arm.kHomePosition);
+      }
     }
+      // continue running the arm up till hits the limit swithc (the home position)
+    else{
+        m_subsystem.runManual(0);
+        // this is redudent but just to help document and understand hitting the limit switch will put power to zero
+    }
+   
   }
 
   // Called once the command ends or is interrupted.
