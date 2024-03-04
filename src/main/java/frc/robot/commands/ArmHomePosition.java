@@ -27,11 +27,28 @@ public class ArmHomePosition extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {m_subsystem.setTargetPosition(Constants.Arm.kHomePosition);}
+  public void execute() {
+    if(m_subsystem.isLimitSwitchTopPressed() == false){
+      m_subsystem.setTargetPosition(Constants.Arm.kHomePosition);
+    }
+    // limit switch at top hit, see if past the zero (positive) and if so reset this as the new zero
+    else{
+      if(m_subsystem.getArmPosition()>0){
+        m_subsystem.setCanSparkEncoderToZero();
+        m_subsystem.runManual(0);// this is redudent but just to help document and understand hitting the limit switch will put power to zero
+      }
+      // continue running the arm up till hits the limit swithc (the home position)
+      else{
+        m_subsystem.runManual(0.2);
+      }
+    }
+  }
 
   // Called once the command ends or is interrupted.
   @Override

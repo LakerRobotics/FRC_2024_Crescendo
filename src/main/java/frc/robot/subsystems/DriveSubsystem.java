@@ -13,17 +13,17 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.WPIUtilJNI;
-import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
-import edu.wpi.first.wpilibj.ADIS16470_IMU.IMUAxis;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.utils.SwerveUtils;
 import edu.wpi.first.math.trajectory.Trajectory;
-//import pathplanner.lib.config.HolonomicPathFollowerConfig;
-//import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.util.PIDConstants;
+import com.pathplanner.lib.util.ReplanningConfig;
+import com.pathplanner.lib.auto.AutoBuilder;
 //import com.pathplanner.lib.util.PathPlannerLogging;
 
 public class DriveSubsystem extends SubsystemBase {
@@ -75,11 +75,18 @@ private ADXRS450_Gyro m_gyro = new ADXRS450_Gyro();
             m_rearLeft.getPosition(),
             m_rearRight.getPosition()
           });
+   
+/** Creates a new DriveSubsystem. */
+  public DriveSubsystem() {
+//m_frontLeft.m_turningSparkMax.setInverted(false);
+//m_frontRight.m_drivingSparkMax.setInverted(true);
+//m_rearLeft.m_turningSparkMax.setInverted(true);
+//m_rearRight.m_turningSparkMax.setInverted(false);
 
           // Configure AutoBuilder last
-/*     AutoBuilder.configureHolonomic(
+     AutoBuilder.configureHolonomic(
             this::getPose, // Robot pose supplier
-            this::resetPose, // Method to reset odometry (will be called if your auto has a starting pose)
+            this::resetOdometry /*resetPose*/, // Method to reset odometry (will be called if your auto has a starting pose)
             this::getRobotRelativeSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
             this::driveRobotRelative, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
             new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
@@ -101,14 +108,7 @@ private ADXRS450_Gyro m_gyro = new ADXRS450_Gyro();
               return false;
             },
             this // Reference to this subsystem to set requirements
-    );
-*/
-  /** Creates a new DriveSubsystem. */
-  public DriveSubsystem() {
-//m_frontLeft.m_turningSparkMax.setInverted(false);
-//m_frontRight.m_drivingSparkMax.setInverted(true);
-//m_rearLeft.m_turningSparkMax.setInverted(true);
-//m_rearRight.m_turningSparkMax.setInverted(false);
+        );
   }
 
   @Override
@@ -123,6 +123,21 @@ private ADXRS450_Gyro m_gyro = new ADXRS450_Gyro();
           m_rearRight.getPosition()
         });
   }
+public ChassisSpeeds getRobotRelativeSpeeds(){
+  //TODO:
+  //return new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered);
+ // return new ChassisSpeeds(0,0,0);
+  return new ChassisSpeeds(m_currentTranslationMag * Math.cos(m_currentTranslationDir), 
+  m_currentTranslationMag * Math.sin(m_currentTranslationDir), 
+  m_currentRotation);
+}
+
+public void driveRobotRelative(ChassisSpeeds speeds){
+    // Convert ChassisSpeeds to field-relative if necessary or use as is if already robot-relative
+    var fieldRelativeSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond, speeds.omegaRadiansPerSecond, m_gyro.getRotation2d());
+    drive(fieldRelativeSpeeds.vxMetersPerSecond, fieldRelativeSpeeds.vyMetersPerSecond, fieldRelativeSpeeds.omegaRadiansPerSecond, true, false);
+}
+
 
   /**
    * Returns the currently-estimated pose of the robot.
@@ -339,3 +354,4 @@ SmartDashboard.putNumber("REV3rotDelivered", rotDelivered);
     setModuleStates(swerveModuleStates);
   }
 }
+
