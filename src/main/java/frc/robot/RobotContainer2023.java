@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.ArmHomePosition;
 import frc.robot.commands.ArmIntakePosition;
+import frc.robot.commands.ArmLockEngage;
 import frc.robot.commands.AutoLauncher;
 import frc.robot.commands.AutoShootSpeaker;
 import frc.robot.commands.AmpShoot;
@@ -30,6 +31,7 @@ import frc.robot.commands.IntakeSetPower;
 import frc.robot.commands.LauncherRun;
 import frc.robot.commands.SetSwerveDrive2023;
 import frc.robot.simulation.FieldSim;
+import frc.robot.subsystems.ArmLockSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -55,6 +57,7 @@ public class RobotContainer2023 {
       private final ArmSubsystem m_arm = new ArmSubsystem();
   private final IntakeSubsystem m_intake = new IntakeSubsystem();
   private final LauncherSubsystem m_launcher = new LauncherSubsystem();
+  private final ArmLockSubsystem mArmLockSubsystem = new ArmLockSubsystem();
   private int ROBOT;
   private final int PROD = 1;
   private final int DEV = 0;
@@ -189,6 +192,9 @@ public class RobotContainer2023 {
   
     new JoystickButton(rightJoystick, PS4Controller.Button.kCross.value)
         .onTrue(new AmpShoot(m_arm, m_launcher, m_intake, m_robotDriveREV));
+
+    new JoystickButton(rightJoystick, PS4Controller.Button.kPS.value)
+        .onTrue(new ArmLockEngage(mArmLockSubsystem));
 
     // DriveTrainReset 
     new JoystickButton(leftJoystick, PS4Controller.Button.kTriangle.value) 

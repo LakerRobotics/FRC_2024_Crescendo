@@ -5,22 +5,23 @@
 package frc.robot.commands;
 
 import frc.robot.Constants;
+import frc.robot.subsystems.ArmLockSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
 /** An example command that uses an example subsystem. */
-public class ArmHomePosition extends Command {
+public class ArmLockDisengage extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final ArmSubsystem m_subsystem;
+  private final ArmLockSubsystem m_ArmLockSubsystem;
  
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ArmHomePosition(ArmSubsystem subsystem) {
-    m_subsystem = subsystem;
+  public ArmLockDisengage(ArmLockSubsystem subsystem) {
+    m_ArmLockSubsystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
   }
@@ -34,22 +35,7 @@ public class ArmHomePosition extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(m_subsystem.isLimitSwitchTopPressed() == false){
-    
-      //see if past the zero (positive) and if so reset this as the new zero
-      if(m_subsystem.getArmPosition()>0){
-        m_subsystem.setCanSparkEncoderToZero();
-        m_subsystem.runManual(-0.2);
-      }
-      else{
-        m_subsystem.setTargetPosition(Constants.Arm.kHomePosition);
-      }
-    }
-      // continue running the arm up till hits the limit swithc (the home position)
-    else{
-        m_subsystem.runManual(0);
-        // this is redudent but just to help document and understand hitting the limit switch will put power to zero
-    }
+        m_ArmLockSubsystem.runManual(-0.05);  
    
   }
 

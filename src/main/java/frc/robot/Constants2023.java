@@ -49,7 +49,8 @@ public final class Constants2023 {
     public static final int backLeftTurnMotor = 33;
     public static final int backRightDriveMotor = 42;
     public static final int backRightTurnMotor = 43;
-    
+
+    public static final int armLockMotor = 60;
 
   }
 
