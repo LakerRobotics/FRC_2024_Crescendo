@@ -28,6 +28,7 @@ import frc.robot.commands.AutoShootSpeaker;
 import frc.robot.commands.AmpShoot;
 import frc.robot.commands.AutoShootSpeakerThenFollowPath;
 import frc.robot.commands.IntakeSetPower;
+import frc.robot.commands.LauncherAutoPower;
 import frc.robot.commands.LauncherRun;
 import frc.robot.commands.SetSwerveDrive2023;
 import frc.robot.simulation.FieldSim;
@@ -185,7 +186,7 @@ public class RobotContainer2023 {
     // launcher controls (button to pre-spin the launcher and button to launch)
     new JoystickButton(rightJoystick, PS4Controller.Button.kCircle.value)
         //.whileTrue(new RunCommand(() -> m_launcher.runLauncher(), m_launcher));
-        .whileTrue(new LauncherRun(m_launcher));
+        .whileTrue(new LauncherAutoPower(m_launcher,0.9,1));
 
     new JoystickButton(rightJoystick, PS4Controller.Button.kR1.value)
         .onTrue(m_intake.feedLauncher(m_launcher));
