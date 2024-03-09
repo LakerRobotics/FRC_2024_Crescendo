@@ -25,6 +25,8 @@ import frc.robot.commands.ArmIntakePosition;
 import frc.robot.commands.ArmLockEngage;
 import frc.robot.commands.AutoLauncher;
 import frc.robot.commands.AutoShootSpeaker;
+import frc.robot.commands.AutoRightShootSpeaker;
+import frc.robot.commands.AutoLeftShootSpeaker;
 import frc.robot.commands.AmpShoot;
 import frc.robot.commands.AutoShootSpeakerThenFollowPath;
 import frc.robot.commands.IntakeSetPower;
@@ -222,7 +224,9 @@ public class RobotContainer2023 {
     m_chooser.setDefaultOption("Shoot Note", new AutoShootSpeaker(m_arm,m_launcher,m_intake,m_robotDriveREV));
     m_chooser.addOption("Launcher Test", new AutoLauncher(m_launcher));
     m_chooser.addOption("Shoot Note ", new AutoShootSpeaker(m_arm,m_launcher,m_intake,m_robotDriveREV));
-    m_chooser.addOption("Shoot Note then follow Path ", new AutoShootSpeakerThenFollowPath(m_arm,m_launcher,m_intake,m_robotDriveREV,"Seth Path"));
+    m_chooser.addOption("Right Shoot Note ", new AutoRightShootSpeaker(m_arm,m_launcher,m_intake,m_robotDriveREV));
+    m_chooser.addOption("Left Shoot Note ", new AutoLeftShootSpeaker(m_arm,m_launcher,m_intake,m_robotDriveREV));
+   // m_chooser.addOption("Shoot Note then follow Path ", new AutoShootSpeakerThenFollowPath(m_arm,m_launcher,m_intake,m_robotDriveREV,"Seth Path"));
 
     //PathPlannerPath path = PathPlannerPath.fromPathFile("Example Path");
     //m_chooser.addOption("Path: Example Path", AutoBuilder.followPath(path));
