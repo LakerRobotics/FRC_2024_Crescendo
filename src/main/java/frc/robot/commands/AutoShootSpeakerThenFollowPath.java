@@ -11,7 +11,7 @@ public class AutoShootSpeakerThenFollowPath extends SequentialCommandGroup {
 
     public AutoShootSpeakerThenFollowPath(ArmSubsystem armSubsystem, LauncherSubsystem launcherSubsystem, IntakeSubsystem intakeSubsystem, DriveSubsystem driveTrain, String pathName) {
         // Ensure the arm is in the home position
-        addCommands(new ArmHomePosition(armSubsystem).withTimeout(1));
+        addCommands(new ArmJoystickControl(armSubsystem).withTimeout(1));
 
         // Spin up the Launcher
         addCommands(new LauncherRun(launcherSubsystem).withTimeout(2));

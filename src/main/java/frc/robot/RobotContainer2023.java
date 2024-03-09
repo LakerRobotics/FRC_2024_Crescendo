@@ -20,7 +20,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.ArmHomePosition;
+import frc.robot.commands.ArmJoystickControl;
 import frc.robot.commands.ArmIntakePosition;
 import frc.robot.commands.ArmLockEngage;
 import frc.robot.commands.AutoLauncher;
@@ -52,6 +52,8 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer2023 {
+//  private static RobotContainer2023 m_robotContainer = new RobotContainer2023();
+ 
   // The robot's subsystems and commands are defined here...
   private  SwerveDrive2023 m_robotDriveSDS;
   private  DriveSubsystem  m_robotDriveREV;
@@ -217,6 +219,10 @@ public class RobotContainer2023 {
   public void periodic() {
  //   m_fieldSim.periodic();
   }
+
+//  public static RobotContainer2023 getInstance() {
+//     return m_robotContainer;
+//  }
 
   private void configureAutos() {
     SmartDashboard.putData("auton chooser",m_chooser);

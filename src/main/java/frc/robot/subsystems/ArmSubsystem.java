@@ -24,6 +24,7 @@ import frc.lib.PIDGains;
 import frc.robot.Constants;
 import frc.robot.Constants2023;
 import frc.robot.commands.ArmHomePosition;
+import frc.robot.commands.ArmJoystickControl;
 
 public class ArmSubsystem extends SubsystemBase {
   // Enumeration for control modes

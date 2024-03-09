@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
   public AutoLeftShootSpeaker (ArmSubsystem mArmSubsystem, LauncherSubsystem mLauncherSubsystem, IntakeSubsystem mIntakeSubsystem,DriveSubsystem m_driveTrain) {
     // Make sure the arm is up (should already be there)
-    addCommands( new ArmHomePosition(mArmSubsystem).withTimeout(3)); 
+    addCommands( new ArmJoystickControl(mArmSubsystem).withTimeout(3)); 
     // addCommands(new RunCommand(() -> mArmSubsystem.runManual(0.4),mArmSubsystem));
     
     // Spin up the Launcher
@@ -28,7 +28,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
     // Now that the launcher is spinning, index the note into the launcher by running the intake
        // Setup the command
         ParallelCommandGroup runLauncerAndIntake = new ParallelCommandGroup(
-           new ArmHomePosition(mArmSubsystem).withTimeout(3),
+           new ArmJoystickControl(mArmSubsystem).withTimeout(3),
            new LauncherAutoPower(mLauncherSubsystem,1,1).withTimeout(2),
            new IntakeSetPower(mIntakeSubsystem, 1).withTimeout(2)
          );
