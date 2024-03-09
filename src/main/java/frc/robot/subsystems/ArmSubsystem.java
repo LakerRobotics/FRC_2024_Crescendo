@@ -82,6 +82,9 @@ public class ArmSubsystem extends SubsystemBase {
     updateMotionProfile();
 
     setDefaultCommand(new ArmHomePosition(this));
+    //set a default so auton does not crash for Auton
+          m_targetState = new TrapezoidProfile.State(m_setpoint, 0.0);
+
   }
   
   // Set control mode to POSITION_CONTROL
