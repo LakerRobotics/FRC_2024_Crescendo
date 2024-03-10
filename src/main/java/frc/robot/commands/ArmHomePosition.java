@@ -39,13 +39,13 @@ public class ArmHomePosition extends Command {
       //see if past the zero (positive) and if so reset this as the new zero
       if(m_subsystem.getArmPosition()>0){
         m_subsystem.setCanSparkEncoderToZero();
-        m_subsystem.runManual(-0.2);
+        m_subsystem.runManual(0.2);
       }
       else{
         m_subsystem.setTargetPosition(Constants.Arm.kHomePosition);
       }
     }
-      // continue running the arm up till hits the limit swithc (the home position)
+      // continue running the arm up till hits the limit switch (the home position)
     else{
         m_subsystem.runManual(0);
         // this is redudent but just to help document and understand hitting the limit switch will put power to zero

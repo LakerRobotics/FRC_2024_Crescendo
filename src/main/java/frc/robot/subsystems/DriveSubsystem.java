@@ -258,6 +258,9 @@ SmartDashboard.putNumber("REV3rotDelivered", rotDelivered);
     m_frontRight.setDesiredState(swerveModuleStates[1]);
     m_rearLeft.setDesiredState(swerveModuleStates[2]);
     m_rearRight.setDesiredState(swerveModuleStates[3]);
+    SmartDashboard.putNumber("gyro Angle", m_gyro.getAngle());
+
+
         SmartDashboard.putNumber("Rev4[0]AngleRadis",swerveModuleStates[0].angle.getRadians());
         SmartDashboard.putNumber("Rev4[0]Speed"     ,swerveModuleStates[0].speedMetersPerSecond);
         SmartDashboard.putNumber("Rev4[0]AngleActual",m_frontLeft.getState().angle.getRadians());
@@ -317,6 +320,7 @@ SmartDashboard.putNumber("REV3rotDelivered", rotDelivered);
   /** Zeroes the heading of the robot. */
   public void zeroHeading() {
     m_gyro.reset();
+//    m_gyro.calibrate();
   }
 
   /**

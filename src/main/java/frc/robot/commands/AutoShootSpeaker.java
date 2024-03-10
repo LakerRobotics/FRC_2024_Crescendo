@@ -8,6 +8,7 @@ import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LauncherSubsystem;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -17,7 +18,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
   public AutoShootSpeaker (ArmSubsystem mArmSubsystem, LauncherSubsystem mLauncherSubsystem, IntakeSubsystem mIntakeSubsystem,DriveSubsystem m_driveTrain) {
     // Make sure the arm is up (should already be there)
-    addCommands( new ArmJoystickControl(mArmSubsystem).withTimeout(3)); 
+    addCommands( new ArmHomePosition(mArmSubsystem).withTimeout(0.1)); 
     // addCommands(new RunCommand(() -> mArmSubsystem.runManual(0.4),mArmSubsystem));
     
     // Spin up the Launcher
@@ -28,15 +29,21 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
     // Now that the launcher is spinning, index the note into the launcher by running the intake
        // Setup the command
         ParallelCommandGroup runLauncerAndIntake = new ParallelCommandGroup(
-           new ArmJoystickControl(mArmSubsystem).withTimeout(3),
+           new ArmHomePosition(mArmSubsystem).withTimeout(3),
            new LauncherAutoPower(mLauncherSubsystem,1,1).withTimeout(2),
            new IntakeSetPower(mIntakeSubsystem, 1).withTimeout(2)
          );
 //         runLauncerAndIntake.withTimeout(2);
       //Add the command to the sequence
-        addCommands(runLauncerAndIntake);
+        addCommands(runLauncerAndIntake);    
 
-    addCommands( new DriveTrainMove(m_driveTrain).withTimeout(3));
+         ParallelCommandGroup runLowerArmRunIntakeAndDrive = new ParallelCommandGroup(
+        new ArmIntakePosition(mArmSubsystem).withTimeout(3),
+        new DriveTrainMove(m_driveTrain).withTimeout(3),
+        new IntakeSetPower(mIntakeSubsystem, 1).withTimeout(3) 
+        );
+
+        addCommands(runLowerArmRunIntakeAndDrive);
     
   }
   
