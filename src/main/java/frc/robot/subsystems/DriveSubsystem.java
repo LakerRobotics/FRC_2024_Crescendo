@@ -13,8 +13,10 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.WPIUtilJNI;
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+//import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.ADIS16470_IMU.IMUAxis;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
@@ -23,6 +25,7 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
+//import com.analog.adis16470.frc.ADIS16470_IMU.IMUAxis;
 import com.pathplanner.lib.auto.AutoBuilder;
 //import com.pathplanner.lib.util.PathPlannerLogging;
 
@@ -53,7 +56,9 @@ public class DriveSubsystem extends SubsystemBase {
           DriveConstants.kBackRightChassisAngularOffset);
 
   // The gyro sensor
-private ADXRS450_Gyro m_gyro = new ADXRS450_Gyro();
+//private ADXRS450_Gyro m_gyro = new ADXRS450_Gyro();
+private ADIS16470_IMU m_gyro = new ADIS16470_IMU();
+
 
   // Slew rate filter variables for controlling lateral acceleration
   private double m_currentRotation = 0.0;
@@ -68,7 +73,7 @@ private ADXRS450_Gyro m_gyro = new ADXRS450_Gyro();
   SwerveDriveOdometry m_odometry =
       new SwerveDriveOdometry(
           DriveConstants.kDriveKinematics,
-          Rotation2d.fromDegrees(-m_gyro.getAngle()),
+          Rotation2d.fromDegrees(getAngle()),
           new SwerveModulePosition[] {
             m_frontLeft.getPosition(),
             m_frontRight.getPosition(),
@@ -82,7 +87,8 @@ private ADXRS450_Gyro m_gyro = new ADXRS450_Gyro();
 //m_frontRight.m_drivingSparkMax.setInverted(true);
 //m_rearLeft.m_turningSparkMax.setInverted(true);
 //m_rearRight.m_turningSparkMax.setInverted(false);
-
+m_gyro.reset();
+m_gyro.calibrate();
           // Configure AutoBuilder last
      AutoBuilder.configureHolonomic(
             this::getPose, // Robot pose supplier
@@ -115,7 +121,7 @@ private ADXRS450_Gyro m_gyro = new ADXRS450_Gyro();
   public void periodic() {
     // Update the odometry in the periodic block
     m_odometry.update(
-        Rotation2d.fromDegrees(-m_gyro.getAngle()),
+        Rotation2d.fromDegrees(getAngle()),
         new SwerveModulePosition[] {
           m_frontLeft.getPosition(),
           m_frontRight.getPosition(),
@@ -134,7 +140,8 @@ public ChassisSpeeds getRobotRelativeSpeeds(){
 
 public void driveRobotRelative(ChassisSpeeds speeds){
     // Convert ChassisSpeeds to field-relative if necessary or use as is if already robot-relative
-    var fieldRelativeSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond, speeds.omegaRadiansPerSecond, m_gyro.getRotation2d());
+    var fieldRelativeSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond, speeds.omegaRadiansPerSecond, 
+                                                                    new Rotation2d(Math.toRadians(getAngle())));//m_gyro.get .getRotation2d();
     drive(fieldRelativeSpeeds.vxMetersPerSecond, fieldRelativeSpeeds.vyMetersPerSecond, fieldRelativeSpeeds.omegaRadiansPerSecond, true, false);
 }
 
@@ -155,7 +162,7 @@ public void driveRobotRelative(ChassisSpeeds speeds){
    */
   public void resetOdometry(Pose2d pose) {
     m_odometry.resetPosition(
-        Rotation2d.fromDegrees(-m_gyro.getAngle()),
+        Rotation2d.fromDegrees(getAngle()),
         new SwerveModulePosition[] {
           m_frontLeft.getPosition(),
           m_frontRight.getPosition(),
@@ -250,7 +257,7 @@ SmartDashboard.putNumber("REV3rotDelivered", rotDelivered);
                     xSpeedDelivered,
                     ySpeedDelivered,
                     rotDelivered,
-                    Rotation2d.fromDegrees(-m_gyro.getAngle()))
+                    Rotation2d.fromDegrees(getAngle()))
                 : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
     SwerveDriveKinematics.desaturateWheelSpeeds(
         swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
@@ -258,7 +265,7 @@ SmartDashboard.putNumber("REV3rotDelivered", rotDelivered);
     m_frontRight.setDesiredState(swerveModuleStates[1]);
     m_rearLeft.setDesiredState(swerveModuleStates[2]);
     m_rearRight.setDesiredState(swerveModuleStates[3]);
-    SmartDashboard.putNumber("gyro Angle", m_gyro.getAngle());
+    SmartDashboard.putNumber("gyro Angle", m_gyro.getAngle(IMUAxis.kZ));
 
 
         SmartDashboard.putNumber("Rev4[0]AngleRadis",swerveModuleStates[0].angle.getRadians());
@@ -319,9 +326,12 @@ SmartDashboard.putNumber("REV3rotDelivered", rotDelivered);
 
   /** Zeroes the heading of the robot. */
   public void zeroHeading() {
-    m_gyro.reset();
-//    m_gyro.calibrate();
+   m_gyro.reset();
+//   m_gyro.calibrate();
   }
+  public double getAngle() {
+    return -m_gyro.getAngle(IMUAxis.kZ);
+};
 
   /**
    * Returns the heading of the robot.
@@ -329,7 +339,7 @@ SmartDashboard.putNumber("REV3rotDelivered", rotDelivered);
    * @return the robot's heading in degrees, from -180 to 180
    */
   public double getHeading() {
-    return Rotation2d.fromDegrees(-m_gyro.getAngle()).getDegrees();
+    return Rotation2d.fromDegrees(getAngle()).getDegrees();
   }
 
   /**
@@ -338,7 +348,7 @@ SmartDashboard.putNumber("REV3rotDelivered", rotDelivered);
    * @return The turn rate of the robot, in degrees per second
    */
   public double getTurnRate() {
-    return -m_gyro.getRate() * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
+    return -m_gyro.getRate(IMUAxis.kZ) * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
   }
 
   public void followTrajectory(Trajectory.State desiredState) {

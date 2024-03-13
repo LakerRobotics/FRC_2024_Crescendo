@@ -37,13 +37,13 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
       //Add the command to the sequence
         addCommands(runLauncerAndIntake);    
 
-         ParallelCommandGroup runLowerArmRunIntakeAndDrive = new ParallelCommandGroup(
+        /*  ParallelCommandGroup runLowerArmRunIntakeAndDrive = new ParallelCommandGroup(
         new ArmIntakePosition(mArmSubsystem).withTimeout(3),
         new DriveTrainMove(m_driveTrain).withTimeout(3),
         new IntakeSetPower(mIntakeSubsystem, 1).withTimeout(3) 
         );
 
-        addCommands(runLowerArmRunIntakeAndDrive);
+        addCommands(runLowerArmRunIntakeAndDrive);*/
     
   }
   
