@@ -13,10 +13,10 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
-  public class AutoShootSpeaker extends SequentialCommandGroup{
+  public class AutoShootSpeakerDontMove extends SequentialCommandGroup{
 
 
-  public AutoShootSpeaker (ArmSubsystem mArmSubsystem, LauncherSubsystem mLauncherSubsystem, IntakeSubsystem mIntakeSubsystem,DriveSubsystem m_driveTrain) {
+  public AutoShootSpeakerDontMove (ArmSubsystem mArmSubsystem, LauncherSubsystem mLauncherSubsystem, IntakeSubsystem mIntakeSubsystem,DriveSubsystem m_driveTrain) {
     // Make sure the arm is up (should already be there)
     addCommands( new ArmHomePosition(mArmSubsystem).withTimeout(0.1)); 
     // addCommands(new RunCommand(() -> mArmSubsystem.runManual(0.4),mArmSubsystem));
@@ -37,13 +37,9 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
       //Add the command to the sequence
         addCommands(runLauncerAndIntake);    
 
-        /*  ParallelCommandGroup runLowerArmRunIntakeAndDrive = new ParallelCommandGroup(
-        new ArmIntakePosition(mArmSubsystem).withTimeout(3),
-        new DriveTrainMove(m_driveTrain).withTimeout(3),
-        new IntakeSetPower(mIntakeSubsystem, 1).withTimeout(3) 
-        );
+        
 
-        addCommands(runLowerArmRunIntakeAndDrive);*/
+        
     
   }
   
