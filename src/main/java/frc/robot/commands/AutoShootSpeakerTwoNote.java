@@ -22,7 +22,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
     // addCommands(new RunCommand(() -> mArmSubsystem.runManual(0.4),mArmSubsystem));
     
     // Spin up the Launcher
-    addCommands( new LauncherAutoPower(mLauncherSubsystem,0.9,1).withTimeout(2));
+    addCommands( new LauncherAutoPower(mLauncherSubsystem,0.9,1).withTimeout(0.5));
 
     //addCommands(new IntakeSetPower(mIntakeSubsystem, 1).withTimeout(2));
 
@@ -43,15 +43,13 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
     addCommands( new IntakeRunCommand(mIntakeSubsystem).withTimeout(0.1));
 
     //Move forward towards the note
-    addCommands( new DriveTrainMove(m_driveTrain, 0.2, 0, 0).withTimeout(0.4));
+    addCommands( new DriveTrainMove(m_driveTrain, 0.2, 0, 0).withTimeout(2));
 
-    //Raise the arm
-    addCommands( new ArmHomePosition(mArmSubsystem).withTimeout(2));
-
-    //Move backwards to the speaker
-    addCommands( new DriveTrainMove(m_driveTrain, -0.2, 0, 0).withTimeout(0.4));
-
-    addCommands( new DriveTrainMove(m_driveTrain, 0, 0, 0).withTimeout(0.4));
+    ParallelCommandGroup backUpAndRaiseArmCommandGroup = new ParallelCommandGroup(
+      new IntakeRetract(mIntakeSubsystem).withTimeout(0.4),
+      new ArmHomePosition(mArmSubsystem).withTimeout(2),
+      new DriveTrainMove(m_driveTrain, -0.2, 0, 0).withTimeout(2));
+   addCommands(backUpAndRaiseArmCommandGroup);
     
 
     //Prepare to shoot

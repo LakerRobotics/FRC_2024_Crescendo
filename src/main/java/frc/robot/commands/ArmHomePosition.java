@@ -39,10 +39,11 @@ public class ArmHomePosition extends Command {
       //see if past the zero (positive) and if so reset this as the new zero
       if(m_subsystem.getArmPosition()>0){
         m_subsystem.setCanSparkEncoderToZero();
-        m_subsystem.runManual(0.3);
+        m_subsystem.runManual(0.25);
       }
       else{
-        m_subsystem.setTargetPosition(Constants.Arm.kHomePosition);
+        m_subsystem.runManual(0.25);
+//        m_subsystem.setTargetPosition(Constants.Arm.kHomePosition);
       }
     }
       // continue running the arm up till hits the limit switch (the home position)

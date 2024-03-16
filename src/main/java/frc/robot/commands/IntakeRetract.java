@@ -21,14 +21,14 @@ public class IntakeRetract extends Command {
     @Override
     public void execute() {
         // Code to retract the arm.
-        intakeSubsystem.retract();
+        intakeSubsystem.runManual(-0.4);
     }
 
     @Override
     public boolean isFinished() {
         // You can add logic here to determine when the command is finished.
         // For now, we'll just return true so it runs once and exits.
-        return true;
+        return false;
     }
 
     @Override
