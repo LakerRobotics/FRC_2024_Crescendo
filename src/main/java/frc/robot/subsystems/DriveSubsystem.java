@@ -14,9 +14,10 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.WPIUtilJNI;
 //import edu.wpi.first.wpilibj.ADXRS450_Gyro;
-import edu.wpi.first.wpilibj.ADIS16470_IMU;
+//import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.ADIS16470_IMU.IMUAxis;
+import com.kauailabs.navx.frc.AHRS;
+//import edu.wpi.first.wpilibj.ADIS16470_IMU.IMUAxis;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
@@ -57,7 +58,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   // The gyro sensor
 //private ADXRS450_Gyro m_gyro = new ADXRS450_Gyro();
-private ADIS16470_IMU m_gyro = new ADIS16470_IMU();
+private AHRS m_gyro = new AHRS();
 
 
   // Slew rate filter variables for controlling lateral acceleration
@@ -88,7 +89,7 @@ private ADIS16470_IMU m_gyro = new ADIS16470_IMU();
 //m_rearLeft.m_turningSparkMax.setInverted(true);
 //m_rearRight.m_turningSparkMax.setInverted(false);
 m_gyro.reset();
-m_gyro.calibrate();
+//m_gyro.calibrate();
           // Configure AutoBuilder last
      AutoBuilder.configureHolonomic(
             this::getPose, // Robot pose supplier
@@ -265,7 +266,7 @@ SmartDashboard.putNumber("REV3rotDelivered", rotDelivered);
     m_frontRight.setDesiredState(swerveModuleStates[1]);
     m_rearLeft.setDesiredState(swerveModuleStates[2]);
     m_rearRight.setDesiredState(swerveModuleStates[3]);
-    SmartDashboard.putNumber("gyro Angle", m_gyro.getAngle(IMUAxis.kZ));
+    SmartDashboard.putNumber("gyro Angle", m_gyro.getAngle());
 
 
         SmartDashboard.putNumber("Rev4[0]AngleRadis",swerveModuleStates[0].angle.getRadians());
@@ -330,7 +331,7 @@ SmartDashboard.putNumber("REV3rotDelivered", rotDelivered);
 //   m_gyro.calibrate();
   }
   public double getAngle() {
-    return -m_gyro.getAngle(IMUAxis.kZ);
+    return -m_gyro.getAngle();
 };
 
   /**
@@ -348,7 +349,7 @@ SmartDashboard.putNumber("REV3rotDelivered", rotDelivered);
    * @return The turn rate of the robot, in degrees per second
    */
   public double getTurnRate() {
-    return -m_gyro.getRate(IMUAxis.kZ) * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
+    return -m_gyro.getRate() * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
   }
 
   public void followTrajectory(Trajectory.State desiredState) {
