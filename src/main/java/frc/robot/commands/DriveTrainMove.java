@@ -12,14 +12,20 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class DriveTrainMove extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final DriveSubsystem m_driveTrain;
+  private double m_xSpeed;
+  private double m_ySpeed;
+  private double m_rotationSpeed;
  
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public DriveTrainMove(DriveSubsystem subsystem) {
+  public DriveTrainMove(DriveSubsystem subsystem,double a_xSpeed, double a_ySpeed, double a_rotationSpeed ) {
     m_driveTrain = subsystem;
+    m_xSpeed = a_xSpeed;
+    m_ySpeed = a_ySpeed;
+    m_rotationSpeed = a_rotationSpeed;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
   }
@@ -31,7 +37,7 @@ public class DriveTrainMove extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-     m_driveTrain.drive(0.1, 0, 0.00, true, false);
+     m_driveTrain.drive(m_xSpeed, m_ySpeed, m_rotationSpeed, true, false);
 
   }
 

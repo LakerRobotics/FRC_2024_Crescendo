@@ -36,7 +36,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
       //Add the command to the sequence
         addCommands(runLauncerAndIntake);
 
-    addCommands( new DriveTrainMove(m_driveTrain).withTimeout(10));
+    addCommands( new DriveTrainMove(m_driveTrain, 0.1, 0, 0).withTimeout(10));
     
   }
   

@@ -39,7 +39,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
           ParallelCommandGroup runLowerArmRunIntakeAndDrive = new ParallelCommandGroup(
         new ArmIntakePosition(mArmSubsystem).withTimeout(3),
-        new DriveTrainMove(m_driveTrain).withTimeout(3),
+        new DriveTrainMove(m_driveTrain, 0.1, 0, 0).withTimeout(3),
         new IntakeSetPower(mIntakeSubsystem, 1).withTimeout(3) 
         );
 

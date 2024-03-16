@@ -39,7 +39,7 @@ public class ArmHomePosition extends Command {
       //see if past the zero (positive) and if so reset this as the new zero
       if(m_subsystem.getArmPosition()>0){
         m_subsystem.setCanSparkEncoderToZero();
-        m_subsystem.runManual(0.2);
+        m_subsystem.runManual(0.3);
       }
       else{
         m_subsystem.setTargetPosition(Constants.Arm.kHomePosition);

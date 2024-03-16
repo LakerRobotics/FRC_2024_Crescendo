@@ -32,7 +32,7 @@ public class ArmIntakePosition extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() { 
-    m_subsystem.runManual(-0.25);
+    m_subsystem.runManual(-0.3);
     //m_subsystem.setTargetPosition(Constants.Arm.kIntakePosition);
   }
 
