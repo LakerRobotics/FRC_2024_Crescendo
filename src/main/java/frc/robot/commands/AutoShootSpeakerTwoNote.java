@@ -55,7 +55,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
     addCommands( new LauncherAutoPower(mLauncherSubsystem,0.9,1).withTimeout(2));    
 
     //Shoot the note
-    addCommands(runLauncerAndIntake);    
+   // addCommands(runLauncerAndIntake);    
 
         /*ParallelCommandGroup runLowerArmRunIntakeAndDrive = new ParallelCommandGroup(
         new ArmIntakePosition(mArmSubsystem).withTimeout(3),
