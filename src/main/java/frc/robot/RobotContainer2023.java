@@ -30,8 +30,10 @@ import frc.robot.commands.AutoShootSpeakerTwoNote;
 import frc.robot.commands.AutoLeftShootSpeaker;
 import frc.robot.commands.AmpShoot;
 import frc.robot.commands.AutoShootSpeakerThenFollowPath;
+import frc.robot.commands.AutoShootSpeakerThreeNote;
 import frc.robot.commands.IntakeSetPower;
 import frc.robot.commands.LauncherAutoPower;
+import frc.robot.commands.LauncherClimbHelper;
 import frc.robot.commands.LauncherRun;
 import frc.robot.commands.SetSwerveDrive2023;
 import frc.robot.simulation.FieldSim;
@@ -206,6 +208,10 @@ public class RobotContainer2023 {
     new JoystickButton(leftJoystick, PS4Controller.Button.kTriangle.value) 
     .onTrue(new RunCommand(()-> m_robotDriveREV.zeroHeading()));
 
+    //Climb Launcher Run to help get on chain easier
+
+    new JoystickButton(leftJoystick, PS4Controller.Button.kR1.value).onTrue(new LauncherClimbHelper(m_launcher));
+
   }
 
   /**
@@ -235,6 +241,7 @@ public class RobotContainer2023 {
     m_chooser.addOption("Left Shoot Note ", new AutoLeftShootSpeaker(m_arm,m_launcher,m_intake,m_robotDriveREV));
     m_chooser.addOption("Shoot Note and Don't Move", new AutoShootSpeakerDontMove(m_arm,m_launcher,m_intake,m_robotDriveREV));
     m_chooser.addOption("Shoot Two Notes ", new AutoShootSpeakerTwoNote(m_arm,m_launcher,m_intake,m_robotDriveREV));
+    m_chooser.addOption("3 Note Auto", new AutoShootSpeakerThreeNote(m_arm,m_launcher,m_intake,m_robotDriveREV));
    // m_chooser.addOption("Shoot Note then follow Path ", new AutoShootSpeakerThenFollowPath(m_arm,m_launcher,m_intake,m_robotDriveREV,"Seth Path"));
 
     //PathPlannerPath path = PathPlannerPath.fromPathFile("Example Path");

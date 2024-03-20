@@ -25,7 +25,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
        // Setup the command
         ParallelCommandGroup runLauncerAndIntake = new ParallelCommandGroup(
 //           new ArmHomePosition(mArmSubsystem).withTimeout(2), 
-           new LauncherAutoPower(mLauncherSubsystem,0.5,0.7).withTimeout(2),
+           new LauncherAutoPower(mLauncherSubsystem,0.3,0.5).withTimeout(2),
            new IntakeSetPower(mIntakeSubsystem, 0.2).withTimeout(2)
          );
 //         runLauncerAndIntake.withTimeout(2);

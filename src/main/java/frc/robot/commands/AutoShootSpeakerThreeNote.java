@@ -13,10 +13,10 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
-  public class AutoShootSpeakerTwoNote extends SequentialCommandGroup{
+  public class AutoShootSpeakerThreeNote extends SequentialCommandGroup{
 
 
-  public AutoShootSpeakerTwoNote (ArmSubsystem mArmSubsystem, LauncherSubsystem mLauncherSubsystem, IntakeSubsystem mIntakeSubsystem,DriveSubsystem m_driveTrain) {
+  public AutoShootSpeakerThreeNote (ArmSubsystem mArmSubsystem, LauncherSubsystem mLauncherSubsystem, IntakeSubsystem mIntakeSubsystem,DriveSubsystem m_driveTrain) {
     // Make sure the arm is up (should already be there)
     addCommands( new ArmHomePosition(mArmSubsystem).withTimeout(0.1)); 
     // addCommands(new RunCommand(() -> mArmSubsystem.runManual(0.4),mArmSubsystem));
@@ -80,6 +80,45 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
         addCommands(runLowerArmRunIntakeAndDrive);
      */
+
+     //3rd Note
+     //============================================
+
+      //Lower the arm
+    addCommands( new ArmIntakePosition(mArmSubsystem).withTimeout(2));
+    
+    //Spin the intake to take in the note
+    addCommands( new IntakeRunCommand(mIntakeSubsystem).withTimeout(0.1));
+
+    //Move forward towards the note
+    addCommands( new DriveTrainMove(m_driveTrain, 0.2, 0.2, 0).withTimeout(0.5));
+
+      //Raise the arm
+    addCommands( new ArmHomePosition(mArmSubsystem).withTimeout(2));
+
+    //Move backwards to the speaker
+    addCommands( new DriveTrainMove(m_driveTrain, -0.2, 0, 0).withTimeout(0.5));
+
+    ParallelCommandGroup backUpAndRaiseArmCommandGroup3 = new ParallelCommandGroup(
+      new IntakeRetract(mIntakeSubsystem).withTimeout(0.4),
+      new ArmHomePosition(mArmSubsystem).withTimeout(2),
+      new DriveTrainMove(m_driveTrain, -0.2, -0.2, 0).withTimeout(2));
+   addCommands(backUpAndRaiseArmCommandGroup3);
+    
+
+    //Prepare to shoot
+    addCommands( new LauncherAutoPower(mLauncherSubsystem,0.9,1).withTimeout(2));    
+
+    //Shoot second note
+    // Now that the launcher is spinning, index the note into the launcher by running the intake
+       // Setup the command
+        ParallelCommandGroup runLauncerAndIntake3 = new ParallelCommandGroup(
+           new ArmHomePosition(mArmSubsystem).withTimeout(3),
+           new LauncherAutoPower(mLauncherSubsystem,1,1).withTimeout(2),
+           new IntakeSetPower(mIntakeSubsystem, 1).withTimeout(2)
+         );
+      //Add the command to the sequence
+        addCommands(runLauncerAndIntake3);
   }
   
 }
