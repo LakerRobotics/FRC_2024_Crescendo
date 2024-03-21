@@ -206,7 +206,7 @@ public class RobotContainer2023 {
 
     // DriveTrainReset 
     new JoystickButton(leftJoystick, PS4Controller.Button.kTriangle.value) 
-    .onTrue(new RunCommand(()-> m_robotDriveREV.zeroHeading()));
+    .toggleOnTrue(new RunCommand(()-> m_robotDriveREV.zeroHeading()));
 
     //Climb Launcher Run to help get on chain easier
 

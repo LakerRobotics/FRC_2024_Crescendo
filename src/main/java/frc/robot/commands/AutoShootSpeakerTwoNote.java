@@ -29,27 +29,27 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
     // Now that the launcher is spinning, index the note into the launcher by running the intake
        // Setup the command
         ParallelCommandGroup runLauncerAndIntake = new ParallelCommandGroup(
-           new ArmHomePosition(mArmSubsystem).withTimeout(3),
-           new LauncherAutoPower(mLauncherSubsystem,1,1).withTimeout(2),
-           new IntakeSetPower(mIntakeSubsystem, 1).withTimeout(2)
+           new ArmHomePosition(mArmSubsystem).withTimeout(1),
+           new LauncherAutoPower(mLauncherSubsystem,1,1).withTimeout(1),
+           new IntakeSetPower(mIntakeSubsystem, 1).withTimeout(1)
          );
       //Add the command to the sequence
         addCommands(runLauncerAndIntake);    
 
     //Lower the arm
-    addCommands( new ArmIntakePosition(mArmSubsystem).withTimeout(2));
+    addCommands( new ArmIntakePosition(mArmSubsystem).withTimeout(1));
     
     //Spin the intake to take in the note
     addCommands( new IntakeRunCommand(mIntakeSubsystem).withTimeout(0.1));
 
     //Move forward towards the note
-    addCommands( new DriveTrainMove(m_driveTrain, 0.2, 0, 0).withTimeout(0.5));
+    addCommands( new DriveTrainMove(m_driveTrain, 0.2, 0, 0).withTimeout(2));
 
       //Raise the arm
     addCommands( new ArmHomePosition(mArmSubsystem).withTimeout(2));
 
     //Move backwards to the speaker
-    addCommands( new DriveTrainMove(m_driveTrain, -0.2, 0, 0).withTimeout(0.5));
+    addCommands( new DriveTrainMove(m_driveTrain, -0.2, 0, 0).withTimeout(2));
 
     ParallelCommandGroup backUpAndRaiseArmCommandGroup = new ParallelCommandGroup(
       new IntakeRetract(mIntakeSubsystem).withTimeout(0.4),
