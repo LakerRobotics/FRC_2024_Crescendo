@@ -27,6 +27,7 @@ import frc.robot.commands.AutoLauncher;
 import frc.robot.commands.AutoShootSpeakerDontMove;
 import frc.robot.commands.AutoRightShootSpeaker;
 import frc.robot.commands.AutoShootSpeakerTwoNote;
+import frc.robot.commands.AutoShootSpeakerTwoNoteAmpSide;
 import frc.robot.commands.AutoLeftShootSpeaker;
 import frc.robot.commands.AmpShoot;
 import frc.robot.commands.AutoShootSpeakerThenFollowPath;
@@ -241,6 +242,7 @@ public class RobotContainer2023 {
     m_chooser.addOption("Left Shoot Note ", new AutoLeftShootSpeaker(m_arm,m_launcher,m_intake,m_robotDriveREV));
     m_chooser.addOption("Shoot Note and Don't Move", new AutoShootSpeakerDontMove(m_arm,m_launcher,m_intake,m_robotDriveREV));
     m_chooser.addOption("Shoot Two Notes ", new AutoShootSpeakerTwoNote(m_arm,m_launcher,m_intake,m_robotDriveREV));
+    m_chooser.addOption("Two Note Amp Side", new AutoShootSpeakerTwoNoteAmpSide(m_arm,m_launcher,m_intake,m_robotDriveREV));
     m_chooser.addOption("3 Note Auto", new AutoShootSpeakerThreeNote(m_arm,m_launcher,m_intake,m_robotDriveREV));
    // m_chooser.addOption("Shoot Note then follow Path ", new AutoShootSpeakerThenFollowPath(m_arm,m_launcher,m_intake,m_robotDriveREV,"Seth Path"));
 
