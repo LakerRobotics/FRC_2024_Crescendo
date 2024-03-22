@@ -31,7 +31,7 @@ public class IntakeSubsystem extends SubsystemBase {
   public IntakeSubsystem() {
     // create a new SPARK MAX and configure it
     m_motor = new CANSparkMax(Constants.Intake.kCanId, MotorType.kBrushless);
-    m_motor.setInverted(true);
+    m_motor.setInverted(false);
     m_motor.enableSoftLimit(SoftLimitDirection.kForward,false);
     m_motor.enableSoftLimit(SoftLimitDirection.kReverse,false);
    // m_motor.setSmartCurrentLimit(Constants.Intake.kCurrentLimit);
