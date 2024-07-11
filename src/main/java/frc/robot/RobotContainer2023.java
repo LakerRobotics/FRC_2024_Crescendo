@@ -5,6 +5,9 @@
 package frc.robot;
   
 import com.pathplanner.lib.auto.AutoBuilder;
+
+import com.pathplanner.lib.commands.PathPlannerAuto;
+
 import com.pathplanner.lib.path.PathPlannerPath;
 
 import edu.wpi.first.cameraserver.CameraServer;
@@ -213,8 +216,13 @@ public class RobotContainer2023 {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // The selected command will be run in autonomous
-    return m_chooser.getSelected();
+// Load the path you want to follow using its name in the GUI
+    PathPlannerPath path = PathPlannerPath.fromPathFile("Example Path");
+
+    // Create a path following command using AutoBuilder. This will also trigger event markers.
+    return AutoBuilder.followPath(path);
+
+    
   }
   public void periodic() {
  //   m_fieldSim.periodic();
